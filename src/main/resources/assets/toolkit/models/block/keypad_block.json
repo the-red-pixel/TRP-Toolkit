@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "toolkit:blocks/keypad_block_side",
+    "down": "toolkit:blocks/keypad_block_side",
+    "up": "toolkit:blocks/keypad_block_side",
+    "east": "toolkit:blocks/keypad_block_side",
+    "west": "toolkit:blocks/keypad_block_side",
+    "north": "toolkit:blocks/keypad_block",
+    "south": "toolkit:blocks/keypad_block_side"
+  }
+}

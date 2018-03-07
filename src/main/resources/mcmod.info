@@ -1,0 +1,16 @@
+[
+{
+  "modid": "toolkit",
+  "name": "TRP Toolkit",
+  "description": "TRP工具包",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Erioifpud"],
+  "credits": "TheRedPixel",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
