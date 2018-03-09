@@ -5,10 +5,12 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -18,44 +20,45 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import work.erio.toolkit.Toolkit;
-import work.erio.toolkit.render.RenderMonitor;
-import work.erio.toolkit.tile.TileEntityMonitor;
+import work.erio.toolkit.render.RenderBox;
+import work.erio.toolkit.tile.TileEntityBox;
 
 import javax.annotation.Nullable;
 
 /**
- * Created by Erioifpud on 2018/3/2.
+ * Created by Erioifpud on 2018/3/8.
  */
-public class BlockMonitor extends Block implements ITileEntityProvider {
+public class BlockBox extends Block implements ITileEntityProvider {
+    private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 1f, 0.5f, 1f);
+    public static final int GUI_ID = 1;
 
-    private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
-    private static final AxisAlignedBB SELECTED_BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 1f, 0.1f, 1f);
-
-    public BlockMonitor() {
+    public BlockBox() {
         super(Material.GLASS);
-        setUnlocalizedName(Toolkit.MODID + ".monitor_block");
-        setRegistryName("monitor_block");
+        setUnlocalizedName(Toolkit.MODID + ".box_block");
+        setRegistryName("box_block");
         setCreativeTab(Toolkit.TRP_TOOLKIT);
-    }
-
-
-    @Nullable
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityMonitor();
     }
 
     @SideOnly(Side.CLIENT)
     public void initModel() {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMonitor.class, new RenderMonitor());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBox.class, new RenderBox());
     }
 
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        TileEntity te = worldIn.getTileEntity(pos);
+        if (!(te instanceof TileEntityBox)) {
+            return false;
+        }
+        ((TileEntityBox) te).showGui();
+        return true;
+    }
 
     @SideOnly(Side.CLIENT)
     @Override
     public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
+        return BlockRenderLayer.CUTOUT;
     }
 
     @Override
@@ -79,7 +82,6 @@ public class BlockMonitor extends Block implements ITileEntityProvider {
         return false;
     }
 
-
     @Nullable
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
@@ -88,11 +90,16 @@ public class BlockMonitor extends Block implements ITileEntityProvider {
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return SELECTED_BOUNDING_BOX;
+        return BOUNDING_BOX;
     }
 
+    private TileEntityBox getTileEntity(IBlockAccess world, BlockPos pos) {
+        return (TileEntityBox) world.getTileEntity(pos);
+    }
 
-    private TileEntityMonitor getTileEntity(IBlockAccess world, BlockPos pos) {
-        return (TileEntityMonitor) world.getTileEntity(pos);
+    @Nullable
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityBox();
     }
 }

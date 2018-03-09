@@ -38,7 +38,7 @@ public class BlockKeypad extends Block implements ITileEntityProvider {
         super(Material.GLASS);
         setUnlocalizedName(Toolkit.MODID + ".keypad_block");
         setRegistryName("keypad_block");
-        setCreativeTab(CreativeTabs.REDSTONE);
+        setCreativeTab(Toolkit.TRP_TOOLKIT);
         setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 

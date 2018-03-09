@@ -1,2 +1,4 @@
 tile.toolkit.monitor_block.name=Monitor
 tile.toolkit.keypad_block.name=KeyPad
+tile.toolkit.box_block.name=ContainerBox
+itemGroup.toolkit=TRP Toolkit

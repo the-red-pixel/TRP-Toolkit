@@ -12,8 +12,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.Toolkit;
+import work.erio.toolkit.block.BlockBox;
 import work.erio.toolkit.block.BlockKeypad;
 import work.erio.toolkit.block.BlockMonitor;
+import work.erio.toolkit.tile.TileEntityBox;
 import work.erio.toolkit.tile.TileEntityKeypad;
 import work.erio.toolkit.tile.TileEntityMonitor;
 
@@ -22,6 +24,24 @@ import work.erio.toolkit.tile.TileEntityMonitor;
  */
 @Mod.EventBusSubscriber
 public class CommonProxy {
+    @SubscribeEvent
+    public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        event.getRegistry().register(new BlockMonitor());
+        event.getRegistry().register(new BlockKeypad());
+        event.getRegistry().register(new BlockBox());
+
+        GameRegistry.registerTileEntity(TileEntityMonitor.class, Toolkit.MODID + "_monitor");
+        GameRegistry.registerTileEntity(TileEntityKeypad.class, Toolkit.MODID + "_keypad");
+        GameRegistry.registerTileEntity(TileEntityBox.class, Toolkit.MODID + "_box");
+    }
+
+    @SubscribeEvent
+    public static void registerItems(RegistryEvent.Register<Item> event) {
+        event.getRegistry().register(new ItemBlock(ModBlocks.blockMonitor).setRegistryName(ModBlocks.blockMonitor.getRegistryName()));
+        event.getRegistry().register(new ItemBlock(ModBlocks.blockKeypad).setRegistryName(ModBlocks.blockKeypad.getRegistryName()));
+        event.getRegistry().register(new ItemBlock(ModBlocks.blockBox).setRegistryName(ModBlocks.blockBox.getRegistryName()));
+    }
+
     public void preInit(FMLPreInitializationEvent event) {
 
     }
@@ -32,20 +52,5 @@ public class CommonProxy {
 
     public void postInit(FMLPostInitializationEvent event) {
 
-    }
-
-    @SubscribeEvent
-    public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().register(new BlockMonitor());
-        event.getRegistry().register(new BlockKeypad());
-
-        GameRegistry.registerTileEntity(TileEntityMonitor.class, Toolkit.MODID + "_monitor");
-        GameRegistry.registerTileEntity(TileEntityKeypad.class, Toolkit.MODID + "_keypad");
-    }
-
-    @SubscribeEvent
-    public static void registerItems(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(new ItemBlock(ModBlocks.blockMonitor).setRegistryName(ModBlocks.blockMonitor.getRegistryName()));
-        event.getRegistry().register(new ItemBlock(ModBlocks.blockKeypad).setRegistryName(ModBlocks.blockKeypad.getRegistryName()));
     }
 }
