@@ -2,3 +2,6 @@ tile.toolkit.monitor_block.name=Monitor
 tile.toolkit.keypad_block.name=KeyPad
 tile.toolkit.box_block.name=ContainerBox
 itemGroup.toolkit=TRP Toolkit
+message.toolkit.stack1=1 stack item(s)
+message.toolkit.stack16=16 stack item(s)
+message.toolkit.stack64=64 stack item(s)
