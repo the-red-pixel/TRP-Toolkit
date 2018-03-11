@@ -69,7 +69,6 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
             lastValue = currentValue;
             currentValue = ((TileEntityComparator) tileEntity).getOutputSignal();
             if (currentValue != lastValue) {
-                System.out.println(currentValue);
                 value = currentValue;
                 markDirty();
                 IBlockState state = world.getBlockState(getPos());
