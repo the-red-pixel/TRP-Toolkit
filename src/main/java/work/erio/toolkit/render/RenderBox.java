@@ -23,41 +23,49 @@ public class RenderBox extends TileEntitySpecialRenderer<TileEntityBox> {
     private static final ItemStack COMMAND_BLOCK = new ItemStack(Blocks.COMMAND_BLOCK);
     private static final ItemStack JUKEBOX = new ItemStack(Blocks.JUKEBOX);
     private Minecraft mc;
+    private float actualVal;
 
     public RenderBox() {
         this.mc = Minecraft.getMinecraft();
-
+        this.actualVal = 0;
     }
 
     @Override
     public void render(TileEntityBox te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         super.render(te, x, y, z, partialTicks, destroyStage, alpha);
-        drawBlock(CHEST, x + 0.2D, y + 1D, z + 0.2D);
-        drawBlock(DROPPER, x + 0.5D, y + 1D, z + 0.2D);
-        drawBlock(SHULKER_BOX, x + 0.8D, y + 1D, z + 0.2D);
+         actualVal = te.getAngle() + (Math.abs(te.getAngle() - te.getOldAngle())) * partialTicks;
+         drawAll(x, y, z, actualVal);
+    }
 
-        drawBlock(DISPENSER, x + 0.2D, y + 1D, z + 0.5D);
-        //drawBlock(HOPPER, x + 0.5D, y + 1D, z + 0.5D);
-        drawBlock(FURNACE, x + 0.8D, y + 1D, z + 0.5D);
-
-        drawBlock(COMMAND_BLOCK, x + 0.2D, y + 1D, z + 0.8D);
-        drawBlock(HOPPER, x + 0.5D, y + 1D, z + 0.8D);
-        drawBlock(JUKEBOX, x + 0.8D, y + 1D, z + 0.8D);
+    private void drawAll(double x, double y, double z, float angle) {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x + 0.5D, y + 0.5D, z + 0.5D);
+        GlStateManager.disableLighting();
+        GlStateManager.rotate(angle, 0.0F, 1.0F, 0.0F);
+        GlStateManager.pushAttrib();
+        RenderHelper.enableStandardItemLighting();
+        drawBlock(CHEST, -0.3D, 0.5D, -0.3D);
+        drawBlock(DROPPER, 0D, 0.5D, -0.3D);
+        drawBlock(SHULKER_BOX, 0.3D, 0.5D, -0.3D);
+        drawBlock(DISPENSER, -0.3D, 0.5D, 0D);
+        drawBlock(FURNACE, 0.3D, 0.5D, 0D);
+        drawBlock(COMMAND_BLOCK, -0.3, 0.5D, 0.3D);
+        drawBlock(HOPPER, 0D, 0.5D, 0.3D);
+        drawBlock(JUKEBOX, 0.3D, 0.5D, 0.3D);
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.popAttrib();
+        GlStateManager.enableLighting();
+        GlStateManager.popMatrix();
     }
 
     private void drawBlock(ItemStack itemStack, double x, double y, double z) {
-        drawBlock(itemStack, x, y, z, ItemCameraTransforms.TransformType.FIXED);
-    }
-
-    private void drawBlock(ItemStack itemStack, double x, double y, double z, ItemCameraTransforms.TransformType type) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         GlStateManager.disableLighting();
-        GlStateManager.rotate(180, 0.0F, 1.0F, 0.0F);
         GlStateManager.scale(0.5D, 0.5D, 0.5D);
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
-        mc.getRenderItem().renderItem(itemStack, type);
+        mc.getRenderItem().renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
         GlStateManager.enableLighting();

@@ -4,10 +4,13 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  * Created by Erioifpud on 2018/3/9.
  */
-public enum EnumContainerInfo {
+public enum EnumSupportedContainer {
     FURNACE(Blocks.FURNACE, 3),
     HOPPER(Blocks.HOPPER, 5),
     DROPPER(Blocks.DROPPER, 9),
@@ -36,7 +39,7 @@ public enum EnumContainerInfo {
     private ItemStack itemStack;
 
 
-    private EnumContainerInfo(Block block, int slot) {
+    private EnumSupportedContainer(Block block, int slot) {
         this.block = block;
         this.slot = slot;
         this.itemStack = new ItemStack(block);
@@ -44,5 +47,17 @@ public enum EnumContainerInfo {
 
     public ItemStack getItemStack() {
         return itemStack;
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
+    public int getSlot() {
+        return slot;
+    }
+
+    public static Optional<EnumSupportedContainer> findByUnlocalizedName(String name) {
+        return Arrays.stream(values()).filter(e -> e.itemStack.getUnlocalizedName().equals(name)).findFirst();
     }
 }
