@@ -12,6 +12,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import work.erio.toolkit.util.TextUtils;
 
 /**
  * Created by Erioifpud on 2018/3/2.
@@ -96,10 +97,7 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
     private void printCurrentState(int value) {
         if (hasItem()) {
             String s = String.format("[%s] - %d", getStack().getDisplayName(), value);
-            TextComponentString message = new TextComponentString(s);
-            message.getStyle().setColor(TextFormatting.YELLOW);
-            Minecraft.getMinecraft().player.sendStatusMessage(message, false);
-
+            TextUtils.printMessage( Minecraft.getMinecraft().player, s, TextFormatting.YELLOW);
         }
     }
 

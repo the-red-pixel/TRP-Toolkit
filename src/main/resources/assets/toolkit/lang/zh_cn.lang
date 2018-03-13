@@ -7,3 +7,4 @@ message.toolkit.stack16=16堆叠物品
 message.toolkit.stack64=64堆叠物品
 message.toolkit.container=容器
 message.toolkit.box_output=强度: %d, 容器: %s, 填充物品: [%s, %s, %s]
+message.toolkit.remote_existed=方块坐标已存在

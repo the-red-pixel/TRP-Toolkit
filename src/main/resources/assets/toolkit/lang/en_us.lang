@@ -7,3 +7,4 @@ message.toolkit.stack16=16 stack item(s)
 message.toolkit.stack64=64 stack item(s)
 message.toolkit.container=Container
 message.toolkit.box_output=Power: %d, Container: %s, Items: [%s, %s, %s]
+message.toolkit.remote_existed=Block position existed
