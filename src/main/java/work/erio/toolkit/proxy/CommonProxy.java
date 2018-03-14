@@ -15,12 +15,9 @@ import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.block.BlockBox;
 import work.erio.toolkit.block.BlockKeypad;
 import work.erio.toolkit.block.BlockMonitor;
-import work.erio.toolkit.block.BlockRemoteSwitch;
-import work.erio.toolkit.item.ItemRemoteController;
 import work.erio.toolkit.tile.TileEntityBox;
 import work.erio.toolkit.tile.TileEntityKeypad;
 import work.erio.toolkit.tile.TileEntityMonitor;
-import work.erio.toolkit.tile.TileEntityRemoteSwitch;
 
 /**
  * Created by Erioifpud on 2018/3/2.
@@ -32,12 +29,12 @@ public class CommonProxy {
         event.getRegistry().register(new BlockMonitor());
         event.getRegistry().register(new BlockKeypad());
         event.getRegistry().register(new BlockBox());
-        event.getRegistry().register(new BlockRemoteSwitch());
+
 
         GameRegistry.registerTileEntity(TileEntityMonitor.class, Toolkit.MODID + "_monitor");
         GameRegistry.registerTileEntity(TileEntityKeypad.class, Toolkit.MODID + "_keypad");
         GameRegistry.registerTileEntity(TileEntityBox.class, Toolkit.MODID + "_box");
-        GameRegistry.registerTileEntity(TileEntityRemoteSwitch.class, Toolkit.MODID + "_remote_switch");
+
     }
 
     @SubscribeEvent
@@ -45,9 +42,7 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(ModBlocks.blockMonitor).setRegistryName(ModBlocks.blockMonitor.getRegistryName()));
         event.getRegistry().register(new ItemBlock(ModBlocks.blockKeypad).setRegistryName(ModBlocks.blockKeypad.getRegistryName()));
         event.getRegistry().register(new ItemBlock(ModBlocks.blockBox).setRegistryName(ModBlocks.blockBox.getRegistryName()));
-        event.getRegistry().register(new ItemBlock(ModBlocks.blockRemoteSwitch).setRegistryName(ModBlocks.blockRemoteSwitch.getRegistryName()));
 
-        event.getRegistry().register(new ItemRemoteController());
     }
 
     public void preInit(FMLPreInitializationEvent event) {
