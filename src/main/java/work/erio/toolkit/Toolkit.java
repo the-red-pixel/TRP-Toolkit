@@ -26,7 +26,7 @@ public class Toolkit {
     public static Toolkit instance;
     @SidedProxy(clientSide = "work.erio.toolkit.proxy.ClientProxy", serverSide = "work.erio.toolkit.proxy.ServerProxy")
     public static CommonProxy proxy;
-    private static Logger logger;
+    public static Logger logger;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

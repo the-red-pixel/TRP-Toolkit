@@ -1,27 +1,26 @@
 package work.erio.toolkit.item;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import work.erio.toolkit.Toolkit;
+import work.erio.toolkit.gui.GuiRemoteController;
 import work.erio.toolkit.tile.TileEntityRemoteSwitch;
 import work.erio.toolkit.util.TextUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -61,7 +60,7 @@ public class ItemRemoteController extends Item {
                 posListTag.appendTag(posCompound);
                 stack.getTagCompound().setTag("posList", posListTag);
             }
-        } else  {
+        } else {
             NBTTagList posListTag = new NBTTagList();
             NBTTagCompound posCompound = new NBTTagCompound();
             posCompound.setInteger("x", pos.getX());
@@ -76,7 +75,10 @@ public class ItemRemoteController extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        System.out.println(playerIn.getHeldItem(handIn).getTagCompound());
+        //System.out.println(playerIn.getHeldItem(handIn).getTagCompound());
+        Minecraft.getMinecraft().displayGuiScreen(new GuiRemoteController(playerIn.getHeldItem(handIn)));
+
+        /*
         ItemStack stack = playerIn.getHeldItem(handIn);
         NBTTagCompound root = playerIn.getHeldItem(handIn).getTagCompound();
         if (root.hasKey("posList")) {
@@ -93,6 +95,7 @@ public class ItemRemoteController extends Item {
                 }
             }
         }
+        */
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
