@@ -44,7 +44,7 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(ModBlocks.blockKeypad).setRegistryName(ModBlocks.blockKeypad.getRegistryName()));
         event.getRegistry().register(new ItemBlock(ModBlocks.blockBox).setRegistryName(ModBlocks.blockBox.getRegistryName()));
 
-        event.getRegistry().register(new ItemScore());
+        //event.getRegistry().register(new ItemScore());
 
     }
 
