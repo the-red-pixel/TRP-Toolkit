@@ -21,12 +21,12 @@ import javax.annotation.Nullable;
 public class Toolkit {
     public static final String MODID = "toolkit";
     public static final String NAME = "TRP Toolkit";
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "1.3.0";
     @Mod.Instance
     public static Toolkit instance;
     @SidedProxy(clientSide = "work.erio.toolkit.proxy.ClientProxy", serverSide = "work.erio.toolkit.proxy.ServerProxy")
     public static CommonProxy proxy;
-    private static Logger logger;
+    public static Logger logger;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

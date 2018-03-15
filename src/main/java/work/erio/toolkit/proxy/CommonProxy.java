@@ -15,6 +15,7 @@ import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.block.BlockBox;
 import work.erio.toolkit.block.BlockKeypad;
 import work.erio.toolkit.block.BlockMonitor;
+import work.erio.toolkit.item.ItemScore;
 import work.erio.toolkit.tile.TileEntityBox;
 import work.erio.toolkit.tile.TileEntityKeypad;
 import work.erio.toolkit.tile.TileEntityMonitor;
@@ -30,9 +31,11 @@ public class CommonProxy {
         event.getRegistry().register(new BlockKeypad());
         event.getRegistry().register(new BlockBox());
 
+
         GameRegistry.registerTileEntity(TileEntityMonitor.class, Toolkit.MODID + "_monitor");
         GameRegistry.registerTileEntity(TileEntityKeypad.class, Toolkit.MODID + "_keypad");
         GameRegistry.registerTileEntity(TileEntityBox.class, Toolkit.MODID + "_box");
+
     }
 
     @SubscribeEvent
@@ -40,6 +43,9 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(ModBlocks.blockMonitor).setRegistryName(ModBlocks.blockMonitor.getRegistryName()));
         event.getRegistry().register(new ItemBlock(ModBlocks.blockKeypad).setRegistryName(ModBlocks.blockKeypad.getRegistryName()));
         event.getRegistry().register(new ItemBlock(ModBlocks.blockBox).setRegistryName(ModBlocks.blockBox.getRegistryName()));
+
+        //event.getRegistry().register(new ItemScore());
+
     }
 
     public void preInit(FMLPreInitializationEvent event) {

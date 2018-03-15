@@ -126,11 +126,9 @@ public class BlockKeypad extends Block implements ITileEntityProvider {
         } else if (w == 3) {
             if (h >= 0 && h <= 1) {
                 // key backspace
-                System.out.println("undo");
                 te.undo();
             } else if (h >= 2 && h <= 3) {
                 // key clear
-                System.out.println("clear");
                 te.clear();
             }
         }
@@ -164,6 +162,8 @@ public class BlockKeypad extends Block implements ITileEntityProvider {
     private TileEntityKeypad getTileEntity(IBlockAccess world, BlockPos pos) {
         return (TileEntityKeypad) world.getTileEntity(pos);
     }
+
+
 
     class Pair<T> {
         private T a;

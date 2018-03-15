@@ -11,6 +11,7 @@ import org.lwjgl.input.Keyboard;
 import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.misc.EnumSupportedContainer;
 import work.erio.toolkit.tile.TileEntityBox;
+import work.erio.toolkit.util.TextUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -40,20 +41,16 @@ public class GuiBlockBox extends GuiScreen {
         //initItemSelectors();
     }
 
-    private String getTranslationKey(String name) {
-        return String.format("message.%s.%s", Toolkit.MODID, name);
-    }
-
     private void initItemSelectors() {
         //int width = this.width / 2 - GuiItemSelect.WIDTH / 2;
         int height = this.height / 2 - GuiItemSelect.HEIGHT / 2;
-        TextComponentTranslation title1 = new TextComponentTranslation(getTranslationKey("stack1"));
+        TextComponentTranslation title1 = new TextComponentTranslation(TextUtils.getTranslationKey("stack1"));
         title1.getStyle().setColor(TextFormatting.GREEN);
-        TextComponentTranslation title16 = new TextComponentTranslation(getTranslationKey("stack16"));
+        TextComponentTranslation title16 = new TextComponentTranslation(TextUtils.getTranslationKey("stack16"));
         title16.getStyle().setColor(TextFormatting.AQUA);
-        TextComponentTranslation title64 = new TextComponentTranslation(getTranslationKey("stack64"));
+        TextComponentTranslation title64 = new TextComponentTranslation(TextUtils.getTranslationKey("stack64"));
         title64.getStyle().setColor(TextFormatting.GOLD);
-        TextComponentTranslation titleContainer = new TextComponentTranslation(getTranslationKey("container"));
+        TextComponentTranslation titleContainer = new TextComponentTranslation(TextUtils.getTranslationKey("container"));
         titleContainer.getStyle().setColor(TextFormatting.YELLOW);
         this.stack1Selector = new GuiItemSelect(this, title1, (int) (width * 0.3) - GuiItemSelect.WIDTH / 2, height, itemStack -> itemStack.getMaxStackSize() == 1);
         this.stack16Selector = new GuiItemSelect(this, title16, width / 2 - GuiItemSelect.WIDTH / 2, height, itemStack -> itemStack.getMaxStackSize() == 16);
@@ -148,9 +145,7 @@ public class GuiBlockBox extends GuiScreen {
     }
 
     private void showOutputMessage(int power, ItemStack container, ItemStack item1, ItemStack item16, ItemStack item64) {
-        TextComponentTranslation message = new TextComponentTranslation(getTranslationKey("box_output"), power, container.getDisplayName(), item1.getDisplayName(), item16.getDisplayName(), item64.getDisplayName());
-        message.getStyle().setColor(TextFormatting.GOLD);
-        mc.player.sendStatusMessage(message, false);
+        TextUtils.printTranslationFormat(mc.player, "box_output", TextFormatting.GOLD, power, container.getDisplayName(), item1.getDisplayName(), item16.getDisplayName(), item64.getDisplayName());
     }
 
     private int calcItems(int power, int slot) {

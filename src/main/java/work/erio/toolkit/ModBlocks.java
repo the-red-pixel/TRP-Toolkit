@@ -23,5 +23,6 @@ public class ModBlocks {
         blockMonitor.initModel();
         blockKeypad.initModel();
         blockBox.initModel();
+        
     }
 }
