@@ -1,16 +1,22 @@
 package work.erio.toolkit.tile;
 
+import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityComparator;
+import net.minecraft.tileentity.TileEntityDaylightDetector;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import work.erio.toolkit.util.TextUtils;
 
@@ -24,6 +30,10 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
     private int value;
     private int lastValue = Integer.MIN_VALUE;
 
+    public ItemStack getStack() {
+        return stack;
+    }
+
     public void setStack(ItemStack stack) {
         this.stack = stack;
         markDirty();
@@ -31,10 +41,6 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
             IBlockState state = world.getBlockState(getPos());
             world.notifyBlockUpdate(getPos(), state, state, 3);
         }
-    }
-
-    public ItemStack getStack() {
-        return stack;
     }
 
     public boolean hasItem() {
@@ -89,7 +95,7 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
     @Override
     public void update() {
         IBlockState down = world.getBlockState(pos.down());
-        if (!world.isRemote && world.getTileEntity(pos.down()) instanceof TileEntityComparator) {
+        if (!world.isRemote) {
             updateCounter(pos.down());
         }
     }
@@ -97,17 +103,15 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
     private void printCurrentState(int value) {
         if (hasItem()) {
             String s = String.format("[%s] - %d", getStack().getDisplayName(), value);
-            TextUtils.printMessage( Minecraft.getMinecraft().player, s, TextFormatting.YELLOW);
+            TextUtils.printMessage(Minecraft.getMinecraft().player, s, TextFormatting.YELLOW);
         }
     }
 
     private void updateCounter(BlockPos pos) {
         delayCounter--;
         if (delayCounter <= 0) {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            tileEntity.markDirty();
             lastValue = currentValue;
-            currentValue = ((TileEntityComparator) tileEntity).getOutputSignal();
+            currentValue = getData(pos);
             if (currentValue != lastValue) {
                 value = currentValue;
                 markDirty();
@@ -117,5 +121,33 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
             }
             delayCounter = 2;
         }
+    }
+
+    private int getData(BlockPos pos) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity != null) {
+            tileEntity.markDirty();
+        }
+        IBlockState state = world.getBlockState(pos);
+        if (tileEntity instanceof TileEntityComparator) {
+            return ((TileEntityComparator) tileEntity).getOutputSignal();
+        } else if (tileEntity instanceof TileEntityKeypad) {
+            return ((TileEntityKeypad) tileEntity).getPower();
+        } else if (state.getBlock() == Blocks.REDSTONE_WIRE) {
+            return Blocks.REDSTONE_WIRE.getMetaFromState(state);
+        } else if (tileEntity instanceof IInventory) {
+            return Container.calcRedstone(tileEntity);
+        } else if (tileEntity instanceof BlockJukebox.TileEntityJukebox) {
+            ItemStack stack =  ((BlockJukebox.TileEntityJukebox) tileEntity).getRecord();
+            return Item.getIdFromItem(stack.getItem()) + 1 - Item.getIdFromItem(Items.RECORD_13);
+        } else if (tileEntity instanceof TileEntityDaylightDetector) {
+            return state.getValue(BlockDaylightDetector.POWER);
+        } else if(state.getBlock() instanceof BlockLiquid) {
+            return state.getValue(BlockLiquid.LEVEL);
+        } else if(state.getBlock() instanceof BlockPressurePlateWeighted) {
+            return state.getValue(BlockPressurePlateWeighted.POWER);
+        }
+        return 0;
+
     }
 }
