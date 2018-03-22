@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.Logger;
+import work.erio.toolkit.command.CommandFreecam;
 import work.erio.toolkit.proxy.CommonProxy;
 
 import javax.annotation.Nullable;
@@ -42,6 +43,11 @@ public class Toolkit {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+    }
+
+    @Mod.EventHandler
+    public void serverLoad(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandFreecam());
     }
 
     public static final CreativeTabs TRP_TOOLKIT = new CreativeTabs("toolkit"){

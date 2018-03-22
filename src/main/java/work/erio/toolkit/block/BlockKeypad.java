@@ -6,8 +6,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,7 +23,10 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import work.erio.toolkit.Toolkit;
+import work.erio.toolkit.common.ToolkitToast;
 import work.erio.toolkit.tile.TileEntityKeypad;
+import work.erio.toolkit.tile.TileEntityMonitor;
+import work.erio.toolkit.util.TextUtils;
 
 import javax.annotation.Nullable;
 
@@ -32,7 +35,8 @@ import javax.annotation.Nullable;
  */
 public class BlockKeypad extends Block implements ITileEntityProvider {
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-
+    private static ItemStack icon;
+    private ToolkitToast.Builder builder;
 
     public BlockKeypad() {
         super(Material.GLASS);
@@ -40,6 +44,7 @@ public class BlockKeypad extends Block implements ITileEntityProvider {
         setRegistryName("keypad_block");
         setCreativeTab(Toolkit.TRP_TOOLKIT);
         setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        builder = ToolkitToast.builder(TextUtils.getTranslation("keypad_title")).setTheme(ToolkitToast.Theme.PRIMARY);
     }
 
     @Nullable
@@ -74,10 +79,18 @@ public class BlockKeypad extends Block implements ITileEntityProvider {
     }
 
     @Override
+    public boolean isTopSolid(IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return true;
+    }
+
+    @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
-            // We only count on the server side.
-
             switch (side.getIndex()) {
                 case 2:
                     click(rotate(hitX, hitY, hitZ, 3), world, pos);
@@ -94,9 +107,15 @@ public class BlockKeypad extends Block implements ITileEntityProvider {
                 default:
                     break;
             }
+            if (icon == null) {
+                icon = new ItemStack(this);
+            }
+            if (!(world.getTileEntity(pos.up()) instanceof TileEntityMonitor)) {
+                builder.setSubtitle(String.valueOf(getTileEntity(world, pos).getPower()));
+                builder.setStack(icon);
+                ToolkitToast.addOrUpdate(Minecraft.getMinecraft().getToastGui(), builder);
+            }
         }
-        // Return true also on the client to make sure that MC knows we handled this and will not try to place
-        // a block on the client
         return true;
     }
 
@@ -162,7 +181,6 @@ public class BlockKeypad extends Block implements ITileEntityProvider {
     private TileEntityKeypad getTileEntity(IBlockAccess world, BlockPos pos) {
         return (TileEntityKeypad) world.getTileEntity(pos);
     }
-
 
 
     class Pair<T> {

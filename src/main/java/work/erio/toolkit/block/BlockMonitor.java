@@ -1,5 +1,6 @@
 package work.erio.toolkit.block;
 
+import javafx.application.Application;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -30,7 +31,6 @@ import javax.annotation.Nullable;
  * Created by Erioifpud on 2018/3/2.
  */
 public class BlockMonitor extends Block implements ITileEntityProvider {
-
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
     private static final AxisAlignedBB SELECTED_BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 1f, 0.1f, 1f);
 
@@ -40,7 +40,6 @@ public class BlockMonitor extends Block implements ITileEntityProvider {
         setRegistryName("monitor_block");
         setCreativeTab(Toolkit.TRP_TOOLKIT);
     }
-
 
     @Nullable
     @Override
@@ -57,12 +56,18 @@ public class BlockMonitor extends Block implements ITileEntityProvider {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = playerIn.getHeldItem(EnumHand.MAIN_HAND);
-        if (heldItem.isEmpty()) {
-            return false;
-        } else {
-            getTileEntity(worldIn, pos).setStack(heldItem);
-            return true;
+        if (!worldIn.isRemote) {
+            if (heldItem.isEmpty()) {
+                return false;
+            } else if (heldItem.getItem() == Item.getItemFromBlock(this)){
+                getTileEntity(worldIn, pos).getDataSet();
+                return true;
+            } else {
+                getTileEntity(worldIn, pos).setStack(heldItem);
+                return true;
+            }
         }
+        return true;
     }
 
     @SideOnly(Side.CLIENT)

@@ -1,4 +1,4 @@
-package work.erio.toolkit.misc;
+package work.erio.toolkit.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

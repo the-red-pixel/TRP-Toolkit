@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import work.erio.toolkit.block.BlockBox;
+import work.erio.toolkit.block.BlockChunk;
 import work.erio.toolkit.block.BlockKeypad;
 import work.erio.toolkit.block.BlockMonitor;
 
@@ -17,12 +18,14 @@ public class ModBlocks {
     public static BlockKeypad blockKeypad;
     @GameRegistry.ObjectHolder("toolkit:box_block")
     public static BlockBox blockBox;
+    @GameRegistry.ObjectHolder("toolkit:chunk_block")
+    public static BlockChunk blockChunk;
 
     @SideOnly(Side.CLIENT)
     public static void initModels() {
         blockMonitor.initModel();
         blockKeypad.initModel();
         blockBox.initModel();
-        
+        blockChunk.initModel();
     }
 }

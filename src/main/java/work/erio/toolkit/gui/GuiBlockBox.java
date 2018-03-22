@@ -8,8 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
-import work.erio.toolkit.Toolkit;
-import work.erio.toolkit.misc.EnumSupportedContainer;
+import work.erio.toolkit.common.EnumSupportedContainer;
 import work.erio.toolkit.tile.TileEntityBox;
 import work.erio.toolkit.util.TextUtils;
 
