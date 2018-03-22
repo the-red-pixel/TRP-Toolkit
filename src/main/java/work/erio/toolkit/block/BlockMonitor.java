@@ -1,6 +1,5 @@
 package work.erio.toolkit.block;
 
-import javafx.application.Application;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -59,11 +58,11 @@ public class BlockMonitor extends Block implements ITileEntityProvider {
         if (!worldIn.isRemote) {
             if (heldItem.isEmpty()) {
                 return false;
-            } else if (heldItem.getItem() == Item.getItemFromBlock(this)){
+            } else if (heldItem.getItem() == Item.getItemFromBlock(this)) {
                 getTileEntity(worldIn, pos).getDataSet();
                 return true;
             } else {
-                getTileEntity(worldIn, pos).setStack(heldItem);
+                getTileEntity(worldIn, pos).nextTheme();
                 return true;
             }
         }

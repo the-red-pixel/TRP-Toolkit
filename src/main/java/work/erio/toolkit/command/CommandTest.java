@@ -22,55 +22,26 @@ import java.util.List;
 /**
  * Created by Erioifpud on 2018/3/21.
  */
-public class CommandFreecam extends CommandBase {
+public class CommandTest extends CommandBase {
 
     @Override
     public String getName() {
-        return "freecam";
+        return "test";
     }
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/freecam - toggle free camera";
+        return "/test";
     }
 
     @Override
     public List<String> getAliases() {
-        return Lists.newArrayList(Toolkit.MODID, "FREECAM", "fc", "FC");
+        return Lists.newArrayList(Toolkit.MODID, "ts");
     }
 
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        /*
-        IToast toast = new IToast() {
-            @Override
-            public Visibility draw(GuiToast toastGui, long delta) {
-                toastGui.getMinecraft().getTextureManager().bindTexture(TEXTURE_TOASTS);
-                GlStateManager.color(1.0F, 1.0F, 1.0F);
-                toastGui.drawTexturedModalRect(0, 0, 0, 96, 160, 32);
-
-
-                toastGui.getMinecraft().fontRenderer.drawString("title", 30, 7, -11534256);
-                toastGui.getMinecraft().fontRenderer.drawString("subtitle", 30, 18, -16777216);
-
-
-                Gui.drawRect(3, 28, 157, 29, -1);
-
-
-                int i;
-                i = -16755456;
-
-                i = -11206656;
-
-                double f = 0.3;
-                Gui.drawRect(3, 28, (int) (3.0F + 154.0F * f), 29, i);
-
-
-                return Visibility.SHOW;
-            }
-        };
-        */
         ItemStack stack1 = new ItemStack(Item.getItemFromBlock(ModBlocks.blockMonitor));
         ItemStack stack2 = new ItemStack(Items.REDSTONE);
         ToolkitToast toast = ToolkitToast.builder("yes!").setStack(stack1).setSubtitle("subtitle").build();

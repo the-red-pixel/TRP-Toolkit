@@ -147,6 +147,14 @@ public class ToolkitToast implements IToast {
             this.background = background;
             this.foreground = foreground;
         }
+
+        public int getBackground() {
+            return background;
+        }
+
+        public int getForeground() {
+            return foreground;
+        }
     }
 
     public static class Builder {
