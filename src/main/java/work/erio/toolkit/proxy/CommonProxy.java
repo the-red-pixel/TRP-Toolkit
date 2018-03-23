@@ -15,10 +15,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.Toolkit;
-import work.erio.toolkit.block.BlockBox;
-import work.erio.toolkit.block.BlockChunk;
-import work.erio.toolkit.block.BlockKeypad;
-import work.erio.toolkit.block.BlockMonitor;
+import work.erio.toolkit.block.*;
 import work.erio.toolkit.handler.EventHandler;
 import work.erio.toolkit.handler.GuiHandler;
 import work.erio.toolkit.handler.PlayerOrderedLoadingHandler;
@@ -38,6 +35,7 @@ public class CommonProxy {
         event.getRegistry().register(new BlockKeypad());
         event.getRegistry().register(new BlockBox());
         event.getRegistry().register(new BlockChunk());
+        event.getRegistry().register(new BlockPulseBaseMonitor());
 
 
 
@@ -45,8 +43,6 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileEntityKeypad.class, Toolkit.MODID + "_keypad");
         GameRegistry.registerTileEntity(TileEntityBox.class, Toolkit.MODID + "_box");
         GameRegistry.registerTileEntity(TileEntityChunk.class, Toolkit.MODID + "_chunk");
-
-
     }
 
     @SubscribeEvent
@@ -55,9 +51,9 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(ModBlocks.blockKeypad).setRegistryName(ModBlocks.blockKeypad.getRegistryName()));
         event.getRegistry().register(new ItemBlock(ModBlocks.blockBox).setRegistryName(ModBlocks.blockBox.getRegistryName()));
         event.getRegistry().register(new ItemBlock(ModBlocks.blockChunk).setRegistryName(ModBlocks.blockChunk.getRegistryName()));
+        event.getRegistry().register(new ItemBlock(ModBlocks.blockPulseBaseMonitor).setRegistryName(ModBlocks.blockPulseBaseMonitor.getRegistryName()));
 
         //event.getRegistry().register(new ItemScore());
-
     }
 
     public void preInit(FMLPreInitializationEvent event) {

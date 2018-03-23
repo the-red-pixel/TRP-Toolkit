@@ -28,8 +28,7 @@ import javax.annotation.Nullable;
 /**
  * Created by Erioifpud on 2018/3/8.
  */
-public class BlockBox extends Block implements ITileEntityProvider {
-    public static final int GUI_ID = 1;
+public class BlockBox extends Block implements ITileEntityProvider {;
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 1f, 0.5f, 1f);
 
     public BlockBox() {

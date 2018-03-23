@@ -129,6 +129,7 @@ public class ToolkitToast implements IToast {
         SUCCESS(0xff20bf6b, 0xff26de81),
         PRIMARY(0xff3867d6, 0xff4b7bec),
         SECONDARY(0xff4b6584, 0xff778ca3),
+        INFO(0xff8c7ae6, 0xff9c88ff),
         WARNING(0xffe1b12c, 0xfffbc531),
         DANGER(0xffeb3b5a, 0xfffc5c65);
 
