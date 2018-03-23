@@ -57,7 +57,7 @@ public class BlockMonitor extends AbstractBlockMonitor implements ITileEntityPro
             if (heldItem.isEmpty()) {
                 return false;
             } else if (heldItem.getItem() == Item.getItemFromBlock(this)) {
-                getTileEntity(worldIn, pos).getDataSet();
+                getTileEntity(worldIn, pos).showChart();
                 return true;
             } else {
                 getTileEntity(worldIn, pos).nextTheme();

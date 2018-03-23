@@ -13,6 +13,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.common.ToolkitToast;
@@ -42,6 +45,34 @@ public class CommandTest extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+        if (args.length != 0) {
+            execute(args[0], args);
+        }
+    }
+
+    private void execute(String s, String[] args) {
+        switch (s) {
+            case "toast":
+                testToast();
+                break;
+            case "chart":
+                testChart();
+                break;
+        }
+    }
+
+    private void testChart() {
+        double[] xData = new double[] { 0.0, 1.0, 2.0 };
+        double[] yData = new double[] { 2.0, 1.0, 0.0 };
+
+        // Create Chart
+        XYChart chart = QuickChart.getChart("Sample Chart", "X", "Y", "y(x)", xData, yData);
+
+        // Show it
+        new Thread(() -> new SwingWrapper(chart).displayChart()).start();
+    }
+
+    private void testToast() {
         ItemStack stack1 = new ItemStack(Item.getItemFromBlock(ModBlocks.blockMonitor));
         ItemStack stack2 = new ItemStack(Items.REDSTONE);
         ToolkitToast toast = ToolkitToast.builder("yes!").setStack(stack1).setSubtitle("subtitle").build();

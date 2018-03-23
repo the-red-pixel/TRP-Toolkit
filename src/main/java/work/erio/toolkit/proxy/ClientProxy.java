@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.Toolkit;
+import work.erio.toolkit.gui.FrameChart;
 
 /**
  * Created by Erioifpud on 2018/3/2.
@@ -30,6 +31,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
+        new Thread(() -> {
+            FrameChart.getInstance().setVisible(true);
+            FrameChart.getInstance().setVisible(false);
+        }).start();
     }
 
     @SubscribeEvent

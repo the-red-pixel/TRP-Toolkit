@@ -23,10 +23,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.common.ToolkitToast;
+import work.erio.toolkit.gui.FrameChart;
 import work.erio.toolkit.util.TextUtils;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.stream.DoubleStream;
 
 /**
  * Created by Erioifpud on 2018/3/2.
@@ -45,13 +47,16 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
         builder = ToolkitToast.builder("").setStack(new ItemStack(ModBlocks.blockMonitor));
     }
 
-    public void getDataSet() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("[").append(world.getTotalWorldTime()).append("] ");
-        for (Integer i : queue) {
-            sb.append(i).append("  ");
-        }
-        TextUtils.printMessage(Minecraft.getMinecraft().player, sb.substring(0, sb.length() - 2), TextFormatting.WHITE);
+    public void showChart() {
+        new Thread(this::processData).start();
+    }
+
+    private void processData() {
+        double[] yData = queue.stream().mapToDouble(Integer::doubleValue).toArray();
+        double[] xData = DoubleStream.iterate(1, n -> n + 1).limit(yData.length).toArray();
+        FrameChart frameChart = FrameChart.getInstance();
+        frameChart.addChart(pos, xData, yData);
+        frameChart.setVisible(true);
     }
 
     public void addDataPoint(int n) {
