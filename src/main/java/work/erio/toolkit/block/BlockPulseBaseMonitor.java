@@ -58,11 +58,6 @@ public class BlockPulseBaseMonitor extends AbstractBlockMonitor {
         onPowerChanged(worldIn, pos);
     }
 
-    @Override
-    public boolean canProvidePower(IBlockState state) {
-        return true;
-    }
-
     private void onPowerChanged(World worldIn, BlockPos pos) {
         if (!worldIn.isRemote) {
             if (prevState && !worldIn.isBlockPowered(pos)) {
