@@ -1,4 +1,4 @@
-package work.erio.toolkit.misc;
+package work.erio.toolkit.common;
 
 /**
  * Created by Erioifpud on 2018/3/15.

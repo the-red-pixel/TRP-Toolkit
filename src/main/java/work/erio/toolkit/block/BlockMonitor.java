@@ -29,18 +29,14 @@ import javax.annotation.Nullable;
 /**
  * Created by Erioifpud on 2018/3/2.
  */
-public class BlockMonitor extends Block implements ITileEntityProvider {
+public class BlockMonitor extends AbstractBlockMonitor implements ITileEntityProvider {
 
-    private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
-    private static final AxisAlignedBB SELECTED_BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 1f, 0.1f, 1f);
 
     public BlockMonitor() {
-        super(Material.GLASS);
+        super();
         setUnlocalizedName(Toolkit.MODID + ".monitor_block");
         setRegistryName("monitor_block");
-        setCreativeTab(Toolkit.TRP_TOOLKIT);
     }
-
 
     @Nullable
     @Override
@@ -57,53 +53,19 @@ public class BlockMonitor extends Block implements ITileEntityProvider {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = playerIn.getHeldItem(EnumHand.MAIN_HAND);
-        if (heldItem.isEmpty()) {
-            return false;
-        } else {
-            getTileEntity(worldIn, pos).setStack(heldItem);
-            return true;
+        if (!worldIn.isRemote) {
+            if (heldItem.isEmpty()) {
+                return false;
+            } else if (heldItem.getItem() == Item.getItemFromBlock(this)) {
+                getTileEntity(worldIn, pos).showChart();
+                return true;
+            } else {
+                getTileEntity(worldIn, pos).nextTheme();
+                return true;
+            }
         }
+        return true;
     }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
-
-
-    @Override
-    public boolean isFullBlock(IBlockState state) {
-        return false;
-    }
-
-
-    @Nullable
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-        return BOUNDING_BOX;
-    }
-
-    @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return SELECTED_BOUNDING_BOX;
-    }
-
 
     private TileEntityMonitor getTileEntity(IBlockAccess world, BlockPos pos) {
         return (TileEntityMonitor) world.getTileEntity(pos);
