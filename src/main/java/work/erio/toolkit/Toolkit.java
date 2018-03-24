@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.Logger;
 import work.erio.toolkit.command.CommandTest;
+import work.erio.toolkit.config.Configs;
 import work.erio.toolkit.proxy.CommonProxy;
 
 @Mod(modid = Toolkit.MODID, name = Toolkit.NAME, version = Toolkit.VERSION)
@@ -23,11 +24,13 @@ public class Toolkit {
     @SidedProxy(clientSide = "work.erio.toolkit.proxy.ClientProxy", serverSide = "work.erio.toolkit.proxy.ServerProxy")
     public static CommonProxy proxy;
     public static Logger logger;
+    public static Configs config;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         proxy.preInit(event);
+        config = new Configs();
     }
 
     @EventHandler

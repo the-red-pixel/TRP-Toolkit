@@ -55,21 +55,8 @@ public class CommandTest extends CommandBase {
             case "toast":
                 testToast();
                 break;
-            case "chart":
-                testChart();
-                break;
+
         }
-    }
-
-    private void testChart() {
-        double[] xData = new double[] { 0.0, 1.0, 2.0 };
-        double[] yData = new double[] { 2.0, 1.0, 0.0 };
-
-        // Create Chart
-        XYChart chart = QuickChart.getChart("Sample Chart", "X", "Y", "y(x)", xData, yData);
-
-        // Show it
-        new Thread(() -> new SwingWrapper(chart).displayChart()).start();
     }
 
     private void testToast() {

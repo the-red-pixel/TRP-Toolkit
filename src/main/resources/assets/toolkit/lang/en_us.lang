@@ -14,3 +14,5 @@ message.toolkit.remote_existed=Block position existed
 message.toolkit.force_load=Forcing load
 message.toolkit.unforce_load=Unforcing load
 message.toolkit.keypad_title=Current Power
+config.toolkit.block_configuration=Block Configuration
+config.toolkit.monitor_record_limit=Monitor record limit

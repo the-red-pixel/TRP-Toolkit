@@ -20,11 +20,10 @@ import net.minecraft.tileentity.TileEntityComparator;
 import net.minecraft.tileentity.TileEntityDaylightDetector;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.common.ToolkitToast;
+import work.erio.toolkit.config.Configs;
 import work.erio.toolkit.gui.FrameChart;
-import work.erio.toolkit.util.TextUtils;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -60,7 +59,7 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
     }
 
     public void addDataPoint(int n) {
-        while (queue.size() >= 20) {
+        while (queue.size() >= Configs.BlockCategory.monitorRecordLimit) {
             queue.poll();
         }
         queue.add(n);
@@ -136,7 +135,7 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
         super.writeToNBT(compound);
         compound.setInteger("value", this.value);
         compound.setInteger("theme", this.themeIndex);
-        compound.setIntArray("data", queue.stream().mapToInt(i -> i).toArray());
+        compound.setIntArray("data", queue.stream().mapToInt(i -> i).limit(Configs.BlockCategory.monitorRecordLimit).toArray());
         return compound;
     }
 
@@ -147,9 +146,14 @@ public class TileEntityMonitor extends TileEntity implements ITickable {
         this.themeIndex = compound.getInteger("theme");
         int[] data = compound.getIntArray("data");
         Queue<Integer> tmpQueue = new LinkedList<>();
-        for (int i = 0; i < data.length; i++) {
+        int len = data.length;
+        if (data.length > Configs.BlockCategory.monitorRecordLimit) {
+            len = Configs.BlockCategory.monitorRecordLimit;
+        }
+        for (int i = 0; i < len; i++) {
             tmpQueue.add(data[i]);
         }
+
         queue = tmpQueue;
     }
 

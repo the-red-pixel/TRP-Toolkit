@@ -5,6 +5,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -16,6 +19,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.block.*;
+import work.erio.toolkit.config.Configs;
 import work.erio.toolkit.handler.EventHandler;
 import work.erio.toolkit.handler.GuiHandler;
 import work.erio.toolkit.handler.PlayerOrderedLoadingHandler;
@@ -23,6 +27,8 @@ import work.erio.toolkit.tile.TileEntityBox;
 import work.erio.toolkit.tile.TileEntityChunk;
 import work.erio.toolkit.tile.TileEntityKeypad;
 import work.erio.toolkit.tile.TileEntityMonitor;
+
+import java.io.File;
 
 /**
  * Created by Erioifpud on 2018/3/2.
@@ -66,6 +72,5 @@ public class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent event) {
-
     }
 }

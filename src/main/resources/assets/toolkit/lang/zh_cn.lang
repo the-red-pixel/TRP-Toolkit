@@ -14,3 +14,5 @@ message.toolkit.remote_existed=方块坐标已存在
 message.toolkit.force_load=强制加载
 message.toolkit.unforce_load=取消强制加载
 message.toolkit.keypad_title=当前强度
+config.toolkit.block_configuration=方块设置
+config.toolkit.monitor_record_limit=侦测器记录上限

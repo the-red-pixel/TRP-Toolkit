@@ -54,7 +54,7 @@ public class FrameChart extends JFrame {
     public void addChart(BlockPos pos, double[] xData, double[] yData) {
         XYChart chart = builder.title(String.format("Monitor [%d, %d, %d]", pos.getX(), pos.getY(), pos.getZ())).build();
         chart.addSeries("power(time)", xData, yData);
-        chart.getSeriesMap().get("power(time)").setMarker(SeriesMarkers.SQUARE);
+        chart.getSeriesMap().get("power(time)").setMarker(SeriesMarkers.CIRCLE);
         chart.getStyler().setToolTipsEnabled(true);
         chart.getStyler().setToolTipType(Styler.ToolTipType.xAndYLabels);
         XChartPanel<XYChart> chartPanel = new XChartPanel<>(chart);
