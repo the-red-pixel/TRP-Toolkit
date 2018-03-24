@@ -3,9 +3,7 @@ package work.erio.toolkit;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import work.erio.toolkit.block.BlockBox;
-import work.erio.toolkit.block.BlockKeypad;
-import work.erio.toolkit.block.BlockMonitor;
+import work.erio.toolkit.block.*;
 
 /**
  * Created by Erioifpud on 2018/3/2.
@@ -17,12 +15,17 @@ public class ModBlocks {
     public static BlockKeypad blockKeypad;
     @GameRegistry.ObjectHolder("toolkit:box_block")
     public static BlockBox blockBox;
+    @GameRegistry.ObjectHolder("toolkit:chunk_block")
+    public static BlockChunk blockChunk;
+    @GameRegistry.ObjectHolder("toolkit:pulse_base_monitor_block")
+    public static BlockPulseBaseMonitor blockPulseBaseMonitor;
 
     @SideOnly(Side.CLIENT)
     public static void initModels() {
         blockMonitor.initModel();
         blockKeypad.initModel();
         blockBox.initModel();
-        
+        blockChunk.initModel();
+        blockPulseBaseMonitor.initModel();
     }
 }

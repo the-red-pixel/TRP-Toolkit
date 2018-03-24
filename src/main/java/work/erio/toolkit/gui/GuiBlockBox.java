@@ -3,13 +3,15 @@ package work.erio.toolkit.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.toasts.GuiToast;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
-import work.erio.toolkit.Toolkit;
-import work.erio.toolkit.misc.EnumSupportedContainer;
+import work.erio.toolkit.common.EnumSupportedContainer;
+import work.erio.toolkit.common.ToolkitToast;
 import work.erio.toolkit.tile.TileEntityBox;
 import work.erio.toolkit.util.TextUtils;
 
@@ -145,7 +147,20 @@ public class GuiBlockBox extends GuiScreen {
     }
 
     private void showOutputMessage(int power, ItemStack container, ItemStack item1, ItemStack item16, ItemStack item64) {
-        TextUtils.printTranslationFormat(mc.player, "box_output", TextFormatting.GOLD, power, container.getDisplayName(), item1.getDisplayName(), item16.getDisplayName(), item64.getDisplayName());
+        //TextUtils.printTranslationFormat(mc.player, "box_output", TextFormatting.GOLD, power, container.getDisplayName(), item1.getDisplayName(), item16.getDisplayName(), item64.getDisplayName());
+        GuiToast guiToast = mc.getToastGui();
+        ToolkitToast.Builder builder = ToolkitToast.builder(TextUtils.getTranslation("stack1"));
+        builder.setSubtitle(item1.getDisplayName()).setStack(item1);
+        ToolkitToast.add(guiToast, builder);
+        builder.setTitle(TextUtils.getTranslation("stack16")).setSubtitle(item16.getDisplayName()).setStack(item16);
+        ToolkitToast.add(guiToast, builder);
+        builder.setTitle(TextUtils.getTranslation("stack64")).setSubtitle(item64.getDisplayName()).setStack(item64);
+        ToolkitToast.add(guiToast, builder);
+        builder.setTitle(TextUtils.getTranslation("container")).setSubtitle(container.getDisplayName()).setTheme(ToolkitToast.Theme.SECONDARY).setStack(container);
+        ToolkitToast.add(guiToast, builder);
+        builder.setTitle(TextUtils.getTranslation("power")).setSubtitle(String.valueOf(power)).setTheme(ToolkitToast.Theme.SUCCESS).setStack(Items.REDSTONE.getDefaultInstance());
+        ToolkitToast.add(guiToast, builder);
+
     }
 
     private int calcItems(int power, int slot) {

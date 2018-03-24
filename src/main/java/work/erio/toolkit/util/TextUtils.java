@@ -1,5 +1,6 @@
 package work.erio.toolkit.util;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -13,6 +14,11 @@ import work.erio.toolkit.Toolkit;
 public class TextUtils {
     public static String getTranslationKey(String key) {
         return String.format("message.%s.%s", Toolkit.MODID, key);
+    }
+
+    public static String getTranslation(String key, Object... obj) {
+
+        return I18n.format(getTranslationKey(key), obj);
     }
 
     public static void printTranslation(EntityPlayer player, String key, TextFormatting color) {
