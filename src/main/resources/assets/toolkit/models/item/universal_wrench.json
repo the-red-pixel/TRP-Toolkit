@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "toolkit:items/universal_wrench"
+  }
+}

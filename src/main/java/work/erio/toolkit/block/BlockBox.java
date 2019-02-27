@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import work.erio.toolkit.Toolkit;
+import work.erio.toolkit.gui.GuiBlockBox;
 import work.erio.toolkit.render.RenderBox;
 import work.erio.toolkit.tile.TileEntityBox;
 
@@ -51,7 +53,7 @@ public class BlockBox extends Block implements ITileEntityProvider {;
             return false;
         }
         getTileEntity(worldIn, pos).showGui();
-        playerIn.openGui(Toolkit.INSTANCE, 1, worldIn, pos.getX(), pos.getY(), pos.getZ());
+//        playerIn.openGui(Toolkit.INSTANCE, GuiHandler.GUI_BLOCK_BOX, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

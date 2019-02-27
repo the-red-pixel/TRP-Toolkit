@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import work.erio.toolkit.ModBlocks;
+import work.erio.toolkit.ModItems;
 import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.gui.FrameChart;
 
@@ -40,5 +41,6 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         ModBlocks.initModels();
+        ModItems.initModels();
     }
 }

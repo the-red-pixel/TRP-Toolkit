@@ -3,6 +3,7 @@ tile.toolkit.keypad_block.name=KeyPad
 tile.toolkit.box_block.name=ContainerBox
 tile.toolkit.chunk_block.name=ChunkLoader
 tile.toolkit.pulse_base_monitor_block.name=PulseBaseMonitor
+item.toolkit.universal_wrench.name=Universal Wrench
 itemGroup.toolkit=TRP Toolkit
 message.toolkit.stack1=1 stack item
 message.toolkit.stack16=16 stack item

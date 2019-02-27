@@ -10,7 +10,12 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-
+repositories {
+    maven {
+        name = "jitpack"
+        url "https://jitpack.io"
+    }
+}
 version = "2.0"
 group = "work.erio.toolkit" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "toolkit"
@@ -35,6 +40,7 @@ minecraft {
 
 dependencies {
     compile"org.knowm.xchart:xchart:3.5.1"
+    compile 'com.github.domamato:rabbit-gui:1.12.2.1'
 
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..

@@ -3,6 +3,7 @@ tile.toolkit.keypad_block.name=小键盘
 tile.toolkit.box_block.name=容器箱
 tile.toolkit.chunk_block.name=区块加载器
 tile.toolkit.pulse_base_monitor_block.name=基于脉冲的监测仪
+item.toolkit.universal_wrench.name=万能扳手
 itemGroup.toolkit=TRP工具包
 message.toolkit.stack1=1堆叠物品
 message.toolkit.stack16=16堆叠物品

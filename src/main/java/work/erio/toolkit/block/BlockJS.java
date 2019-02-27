@@ -2,12 +2,12 @@ package work.erio.toolkit.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneDiode;
-import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +22,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import work.erio.toolkit.Toolkit;
+import work.erio.toolkit.gui.GuiBlockJS;
 import work.erio.toolkit.tile.TileEntityJS;
 
 import javax.annotation.Nullable;
@@ -71,8 +72,7 @@ public class BlockJS extends BlockRedstoneDiode implements ITileEntityProvider {
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             getTileEntity(worldIn, pos).showGui();
-            playerIn.openGui(Toolkit.INSTANCE, 5, worldIn, pos.getX(), pos.getY(),
-                    pos.getZ());
+//            playerIn.openGui(Toolkit.INSTANCE, GuiHandler.GUI_BLOCK_JS, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }

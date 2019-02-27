@@ -22,7 +22,7 @@ public class Toolkit {
     public static final String VERSION = "1.4.0";
     @Mod.Instance(MODID)
     public static Toolkit INSTANCE;
-    @SidedProxy(clientSide = "work.erio.toolkit.proxy.ClientProxy", serverSide = "work.erio.toolkit.proxy.ServerProxy")
+    @SidedProxy(clientSide = "work.erio.toolkit.proxy.ClientProxy", serverSide = "work.erio.toolkit.proxy.CommonProxy")
     public static CommonProxy proxy;
     public static Configs config;
 
@@ -54,6 +54,11 @@ public class Toolkit {
         @Override
         public ItemStack getTabIconItem(){
             return new ItemStack(ModBlocks.blockMonitor);
+        }
+
+        @Override
+        public boolean hasSearchBar() {
+            return true;
         }
     };
 }

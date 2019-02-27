@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +23,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import work.erio.toolkit.Toolkit;
+import work.erio.toolkit.gui.GuiBlockPulse;
 import work.erio.toolkit.tile.TileEntityPulse;
 
 import javax.annotation.Nullable;
@@ -67,6 +69,16 @@ public class BlockPulse extends Block implements ITileEntityProvider {
         return true;
     }
 
+    @Override
+    public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
+        return getTileEntity(worldIn, pos).getPower();
+    }
+
+//    public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+//    {
+//        return getTileEntity(blockAccess, pos).getPower();
+//    }
+
     @Nullable
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -80,9 +92,13 @@ public class BlockPulse extends Block implements ITileEntityProvider {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            getTileEntity(worldIn, pos).showGui();
-            playerIn.openGui(Toolkit.INSTANCE, 6, worldIn, pos.getX(), pos.getY(),
-                    pos.getZ());
+            if (playerIn.isSneaking()) {
+                getTileEntity(worldIn, pos).setRunning(true);
+            } else {
+                getTileEntity(worldIn, pos).showGui();
+            }
+
+//            playerIn.openGui(Toolkit.INSTANCE, GuiHandler.GUI_BLOCK_PULSE, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }
