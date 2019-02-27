@@ -51,9 +51,6 @@ public class ItemUniversalWrench extends Item {
         if (worldIn.isRemote) {
             return super.onItemRightClick(worldIn, playerIn, handIn);
         }
-        moduleManager.getEnabledModuleList().forEach(m -> {
-            System.out.println(m.getTitle() + " " + ((AbstractModule) m).isEnabled());
-        });
         if (playerIn.isSneaking()) {
             moduleManager.prevModule();
         } else {

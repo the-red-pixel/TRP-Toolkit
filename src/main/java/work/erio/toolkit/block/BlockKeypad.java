@@ -91,7 +91,11 @@ public class BlockKeypad extends Block implements ITileEntityProvider {
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
-            switch (side.getIndex()) {
+            EnumFacing enumfacing = (EnumFacing) world.getBlockState(pos).getValue(FACING);
+            if (enumfacing != side) {
+                return true;
+            }
+            switch (enumfacing.getIndex()) {
                 case 2:
                     click(rotate(hitX, hitY, hitZ, 3), world, pos);
                     break;

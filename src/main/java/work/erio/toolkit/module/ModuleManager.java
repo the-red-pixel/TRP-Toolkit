@@ -13,7 +13,8 @@ public class ModuleManager {
     public ModuleManager() {
         this.moduleList = Arrays.asList(
                 new ModuleTest(),
-                new ModuleComparator()
+                new ModuleComparator(),
+                new ModuleBlockData()
         );
         this.index = 0;
     }

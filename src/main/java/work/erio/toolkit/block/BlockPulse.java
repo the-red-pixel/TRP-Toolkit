@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import work.erio.toolkit.ModItems;
 import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.gui.GuiBlockPulse;
 import work.erio.toolkit.tile.TileEntityPulse;
@@ -29,14 +30,14 @@ import work.erio.toolkit.tile.TileEntityPulse;
 import javax.annotation.Nullable;
 
 public class BlockPulse extends Block implements ITileEntityProvider {
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+//    public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
     public BlockPulse() {
         super(Material.GROUND);
         setUnlocalizedName(Toolkit.MODID + ".pulse_block");
         setRegistryName("pulse_block");
         setCreativeTab(Toolkit.TRP_TOOLKIT);
-        setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+//        setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 
     @SideOnly(Side.CLIENT)
@@ -44,20 +45,20 @@ public class BlockPulse extends Block implements ITileEntityProvider {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(FACING, EnumFacing.getFront((meta & 3) + 2));
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).getIndex() - 2;
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
-    }
+//    @Override
+//    public IBlockState getStateFromMeta(int meta) {
+//        return getDefaultState().withProperty(FACING, EnumFacing.getFront((meta & 3) + 2));
+//    }
+//
+//    @Override
+//    public int getMetaFromState(IBlockState state) {
+//        return state.getValue(FACING).getIndex() - 2;
+//    }
+//
+//    @Override
+//    protected BlockStateContainer createBlockState() {
+//        return new BlockStateContainer(this, FACING);
+//    }
 
     @Override
     public boolean canProvidePower(IBlockState state) {
@@ -92,21 +93,19 @@ public class BlockPulse extends Block implements ITileEntityProvider {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            if (playerIn.isSneaking()) {
-                getTileEntity(worldIn, pos).setRunning(true);
+            if (playerIn.getHeldItemMainhand().getItem() == ModItems.itemUniversalWrench) {
+                getTileEntity(worldIn, pos).toggleRunning();
             } else {
                 getTileEntity(worldIn, pos).showGui();
             }
-
-//            playerIn.openGui(Toolkit.INSTANCE, GuiHandler.GUI_BLOCK_PULSE, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }
 
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
-    }
+//    @Override
+//    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+//        world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
+//    }
 
 //    @Override
 //    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
