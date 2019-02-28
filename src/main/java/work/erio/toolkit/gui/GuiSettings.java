@@ -31,28 +31,12 @@ public class GuiSettings extends Show {
         panel = new Panel((int) (width * 0.2), (int) (height * 0.2), (int) (width * 0.6), (int) (height * 0.6))
                 .setCanDrag(true)
                 .setFocused(true);
-//        Tab tab = new ItemTab(0, 0, 25, 25, 90, Blocks.REDSTONE_BLOCK);
-//
-//        panel.registerComponent(tab);
 
-
-//        contentPanel = new Panel(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight());
-//
-//
-//        panel.registerComponent(contentPanel);
         showModuleSettingPanel();
-
-
         registerComponent(panel);
-
-//        Panel test = new Panel(10, 10, 200, 200).setCanDrag(true).setVisible(true);
-//        test.registerComponent(new TextTab(0, 0, test.getWidth(), test.getHeight(), "123"));
-//        registerComponent(test);
-
     }
 
     private void showModuleSettingPanel() {
-//        contentPanel = new Panel(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight());
         this.moduleList = loadModules(panel);
         ScrollableDisplayList scrollableDisplayList = new ScrollableDisplayList(0, 0, panel.getWidth(), panel.getHeight(),
                 30, moduleList);
@@ -73,5 +57,11 @@ public class GuiSettings extends Show {
             return listEntry;
         });
         return stream.collect(Collectors.toList());
+    }
+
+    @Override
+    public void onClose() {
+        super.onClose();
+        ModuleManager.getInstance().serialize();
     }
 }

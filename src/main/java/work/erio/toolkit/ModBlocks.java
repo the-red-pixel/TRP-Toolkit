@@ -25,6 +25,7 @@ public class ModBlocks {
 //    @GameRegistry.ObjectHolder("toolkit:pulse_block")
     public static BlockPulse blockPulse = new BlockPulse();
     public static BlockSettings blockSettings = new BlockSettings();
+    public static BlockModel blockModel = new BlockModel();
 
     @SideOnly(Side.CLIENT)
     public static void initModels() {
@@ -37,5 +38,6 @@ public class ModBlocks {
         blockJS.initModel();
         blockPulse.initModel();
         blockSettings.initModel();
+        blockModel.initModel();
     }
 }

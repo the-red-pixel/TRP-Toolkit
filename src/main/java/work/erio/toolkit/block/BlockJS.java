@@ -41,7 +41,7 @@ public class BlockJS extends BlockRedstoneDiode implements ITileEntityProvider {
                         .withProperty(ACTIVE, Boolean.valueOf(false)));
         setUnlocalizedName(Toolkit.MODID + ".js_block");
         setRegistryName("js_block");
-        setCreativeTab(Toolkit.TRP_TOOLKIT);
+//        setCreativeTab(Toolkit.TRP_TOOLKIT);
     }
 
     @Override

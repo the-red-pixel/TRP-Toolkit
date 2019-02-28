@@ -1,9 +1,7 @@
 package work.erio.toolkit.gui;
 
 import com.rabbit.gui.component.control.DraggableCamera;
-import com.rabbit.gui.component.display.entity.EntityComponent;
 import com.rabbit.gui.show.Show;
-import net.minecraft.client.Minecraft;
 
 public class GuiTest extends Show {
     @Override

@@ -33,8 +33,8 @@ public class RenderBox extends TileEntitySpecialRenderer<TileEntityBox> {
     @Override
     public void render(TileEntityBox te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         super.render(te, x, y, z, partialTicks, destroyStage, alpha);
-         actualVal = te.getAngle() + (Math.abs(te.getAngle() - te.getOldAngle())) * partialTicks;
-         drawAll(x, y, z, actualVal);
+        actualVal = te.getAngle() + (Math.abs(te.getAngle() - te.getOldAngle())) * partialTicks;
+        drawAll(x, y, z, actualVal);
     }
 
     private void drawAll(double x, double y, double z, float angle) {

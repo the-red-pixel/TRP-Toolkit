@@ -15,7 +15,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import work.erio.toolkit.Toolkit;
-import work.erio.toolkit.module.AbstractModule;
 import work.erio.toolkit.module.ModuleManager;
 import work.erio.toolkit.util.TextUtils;
 

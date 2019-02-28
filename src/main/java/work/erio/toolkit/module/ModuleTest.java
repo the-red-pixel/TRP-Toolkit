@@ -13,7 +13,7 @@ import work.erio.toolkit.tile.TileEntityPulse;
 public class ModuleTest extends AbstractModule implements IModule {
 
     public ModuleTest() {
-        super(true);
+        super(false);
     }
 
     @Override

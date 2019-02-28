@@ -51,7 +51,8 @@ public class CommonProxy {
                 ModBlocks.blockPulseBaseMonitor,
                 ModBlocks.blockJS,
                 ModBlocks.blockPulse,
-                ModBlocks.blockSettings
+                ModBlocks.blockSettings,
+                ModBlocks.blockModel
         );
 
         GameRegistry.registerTileEntity(TileEntityMonitor.class, new ResourceLocation(Toolkit.MODID, "monitor"));
@@ -61,6 +62,7 @@ public class CommonProxy {
 
         GameRegistry.registerTileEntity(TileEntityJS.class, new ResourceLocation(Toolkit.MODID, "js"));
         GameRegistry.registerTileEntity(TileEntityPulse.class, new ResourceLocation(Toolkit.MODID, "pulse"));
+        GameRegistry.registerTileEntity(TileEntityModel.class, new ResourceLocation(Toolkit.MODID, "model"));
     }
 
     @SubscribeEvent
@@ -82,7 +84,8 @@ public class CommonProxy {
                 ModBlocks.blockPulseBaseMonitor,
                 ModBlocks.blockJS,
                 ModBlocks.blockPulse,
-                ModBlocks.blockSettings
+                ModBlocks.blockSettings,
+                ModBlocks.blockModel
         ));
 
         event.getRegistry().register(ModItems.itemUniversalWrench);
