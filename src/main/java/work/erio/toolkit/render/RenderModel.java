@@ -32,23 +32,39 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
 
 //        BlockInfo[][][] blockInfos = te.getBlockInfos();
 //        System.out.println(Arrays.deepToString(blockInfos));
-        te.markDirty();
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
-                for (int k = 0; k < 16; k++) {
+
+
+
+
+        BlockInfo[] blockInfos = te.getBlockInfos();
+
+
+//        renderBlock3(x, y, z, 0, 1, 1, blockInfos[0].getBlock());
+
+
+
+//        for (int i = 0; i < 16; i++) {
+//            for (int j = 0; j < 16; j++) {
+//                for (int k = 0; k < 16; k++) {
 //                    int index = i * 256 + j * 16 + k;
-                    Block block = te.getBlockInfo(i, j, k).getBlock();
-//                    System.out.println(i + " " + j + " " + k + " " + block);
-                    if (block != Blocks.AIR) {
-//                        System.out.println(blockInfo.getBlock().getLocalizedName());
-                        renderBlock3(x, y, z, i, j , k, block);
-                    }
-                }
-            }
-        }
+//                    Block block = blockInfos[index].getBlock();
+//                    if (block != Blocks.AIR) {
+//                        renderBlock3(x, y, z, i, j , k, block);
+//                    }
+//                }
+//            }
+//        }
+
+
+
+//        renderBlock5(x, y, z, blockInfos);
+
+
+        renderBlock2(te, x, y, z, partialTicks, destroyStage, alpha);
+
     }
 
-    
+
 
     private void renderBlock2(TileEntityModel te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         // 和玩家位置相对
@@ -61,7 +77,7 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
             if (blockState.getBlock().canRenderInLayer(blockState, layer)) {
                 wr.setTranslation(x, y, z);
                 wr.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-                dispatcher.renderBlock(blockState, new BlockPos(x, y, z), blockAccess, wr);
+                dispatcher.renderBlock(blockState, te.getPos(), blockAccess, wr);
                 tessellator.draw();
             }
         }
@@ -83,6 +99,40 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
         blockrendererdispatcher.renderBlockBrightness(blockState, 1.0F);
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();
+    }
+
+    private void renderBlock5(double x, double y, double z, BlockInfo[] blockInfos) {
+        Minecraft mc = Minecraft.getMinecraft();
+//        IBlockState blockState = block.getDefaultState();
+        BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+//        GlStateManager.enableRescaleNormal();
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, z);
+        GlStateManager.scale(0.0625d, 0.0625d, 0.0625d);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.translate(0, 0, 1);
+
+
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                for (int k = 0; k < 16; k++) {
+                    int index = i * 256 + j * 16 + k;
+                    Block block = blockInfos[index].getBlock();
+                    if (block != Blocks.AIR) {
+                        GlStateManager.pushMatrix();
+                        GlStateManager.enableRescaleNormal();
+                        GlStateManager.translate(i, j, k);
+                        mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                        blockrendererdispatcher.renderBlockBrightness(block.getDefaultState(), 1.0F);
+                        GlStateManager.disableRescaleNormal();
+                        GlStateManager.popMatrix();
+                    }
+                }
+            }
+        }
+
+        GlStateManager.popMatrix();
+
     }
 
     private void renderBlock4(TileEntityModel te, double x, double y, double z, int offsetX, int offsetY, int offsetZ, Block block) {

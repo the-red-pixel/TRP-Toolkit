@@ -35,9 +35,9 @@ public class BlockModel extends Block implements ITileEntityProvider {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!worldIn.isRemote) {
+        if (worldIn.isRemote) {
             ((TileEntityModel) worldIn.getTileEntity(pos)).shuffle();
-            System.out.println(Arrays.deepToString(((TileEntityModel) worldIn.getTileEntity(pos)).getBlockInfos()));
+            System.out.println(Arrays.toString(((TileEntityModel) worldIn.getTileEntity(pos)).getBlockInfos()));
         }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
