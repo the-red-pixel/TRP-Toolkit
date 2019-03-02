@@ -48,6 +48,4 @@ public class RenderChunk extends TileEntitySpecialRenderer<TileEntityChunk> {
         GlStateManager.disableColorMaterial();
         GlStateManager.popMatrix();
     }
-
-
 }

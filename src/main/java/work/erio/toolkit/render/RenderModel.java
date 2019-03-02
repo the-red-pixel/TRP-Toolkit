@@ -3,11 +3,13 @@ package work.erio.toolkit.render;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 import work.erio.toolkit.misc.BlockInfo;
 import work.erio.toolkit.tile.TileEntityModel;
 
-import java.util.Arrays;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
@@ -34,9 +36,19 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
 //        System.out.println(Arrays.deepToString(blockInfos));
 
 
+//        te.markDirty();
+        Map<BlockPos, BlockInfo> blockInfos = te.getBlockInfos();
 
+        renderBlock5(x, y, z, blockInfos);
 
-        BlockInfo[] blockInfos = te.getBlockInfos();
+//        for (Map.Entry<BlockPos, BlockInfo> pair : blockInfos.entrySet()) {
+//            BlockPos pos = pair.getKey();
+//            int oX = pos.getX();
+//            int oY = pos.getY();
+//            int oZ = pos.getZ();
+//            renderBlock3(x, y, z, oX, oY, oZ, pair.getValue());
+//        }
+
 
 
 //        renderBlock3(x, y, z, 0, 1, 1, blockInfos[0].getBlock());
@@ -60,7 +72,7 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
 //        renderBlock5(x, y, z, blockInfos);
 
 
-        renderBlock2(te, x, y, z, partialTicks, destroyStage, alpha);
+//        renderBlock2(te, x, y, z, partialTicks, destroyStage, alpha);
 
     }
 
@@ -83,9 +95,10 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
         }
     }
 
-    private void renderBlock3(double x, double y, double z, int offsetX, int offsetY, int offsetZ, Block block) {
+    private void renderBlock3(double x, double y, double z, int offsetX, int offsetY, int offsetZ, BlockInfo blockInfo) {
         Minecraft mc = Minecraft.getMinecraft();
-        IBlockState blockState = block.getDefaultState();
+        int meta = blockInfo.getMeta();
+        Block block = blockInfo.getBlock();
         BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
@@ -96,12 +109,13 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
         GlStateManager.translate(offsetX, offsetY, offsetZ);
 
         mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-        blockrendererdispatcher.renderBlockBrightness(blockState, 1.0F);
+
+        blockrendererdispatcher.renderBlockBrightness(block.getStateFromMeta(meta), 1.0F);
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();
     }
 
-    private void renderBlock5(double x, double y, double z, BlockInfo[] blockInfos) {
+    private void renderBlock5(double x, double y, double z, Map<BlockPos, BlockInfo> blockInfos) {
         Minecraft mc = Minecraft.getMinecraft();
 //        IBlockState blockState = block.getDefaultState();
         BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
@@ -112,71 +126,25 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.translate(0, 0, 1);
 
-
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
-                for (int k = 0; k < 16; k++) {
-                    int index = i * 256 + j * 16 + k;
-                    Block block = blockInfos[index].getBlock();
-                    if (block != Blocks.AIR) {
-                        GlStateManager.pushMatrix();
-                        GlStateManager.enableRescaleNormal();
-                        GlStateManager.translate(i, j, k);
-                        mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-                        blockrendererdispatcher.renderBlockBrightness(block.getDefaultState(), 1.0F);
-                        GlStateManager.disableRescaleNormal();
-                        GlStateManager.popMatrix();
-                    }
-                }
-            }
+        for (Map.Entry<BlockPos, BlockInfo> pair : blockInfos.entrySet()) {
+            BlockPos pos = pair.getKey();
+            BlockInfo blockInfo = pair.getValue();
+            int meta = blockInfo.getMeta();
+            Block block = blockInfo.getBlock();
+            int oX = pos.getX();
+            int oY = pos.getY();
+            int oZ = pos.getZ();
+            GlStateManager.pushMatrix();
+            GlStateManager.enableRescaleNormal();
+            GlStateManager.translate(oX, oY, oZ);
+            mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+            blockrendererdispatcher.renderBlockBrightness(block.getStateFromMeta(meta), 1.0F);
+            GlStateManager.disableRescaleNormal();
+            GlStateManager.popMatrix();
         }
 
         GlStateManager.popMatrix();
 
-    }
-
-    private void renderBlock4(TileEntityModel te, double x, double y, double z, int offsetX, int offsetY, int offsetZ, Block block) {
-        Minecraft mc = Minecraft.getMinecraft();
-        BlockPos pos = te.getPos();
-        GlStateManager.enableDepth();
-        BlockRendererDispatcher blockrendererdispatcher = mc.getBlockRendererDispatcher();
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, z);
-        GlStateManager.scale(0.0625d, 0.0625d, 0.0625d);
-//        GlStateManager.rotate(45.0F, -1.0F, 0.0F, 0.0F);
-//        GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.translate(0, 0, 1);
-        GlStateManager.translate(offsetX, offsetY, offsetZ);
-
-        float brightness = mc.world.getLightBrightness(pos);
-        mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-        blockrendererdispatcher.renderBlockBrightness(block.getDefaultState(), brightness);
-        GlStateManager.popMatrix();
-        GlStateManager.disableDepth();
-    }
-
-    private void drawOutline(double x, double y, double z, int offsetX, int offsetY, int offsetZ) {
-        GlStateManager.pushMatrix();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.enableColorMaterial();
-        GlStateManager.depthMask(false);
-        GlStateManager.disableTexture2D();
-        GlStateManager.disableLighting();
-        GlStateManager.disableCull();
-        GlStateManager.disableBlend();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.glLineWidth(2);
-        this.setLightmapDisabled(true);
-        RenderGlobal.drawBoundingBox(x, y, z, x + offsetX, y + offsetY, z + offsetZ, 253f / 255, 201f / 255, 97 / 255, 1);
-        this.setLightmapDisabled(false);
-        GlStateManager.glLineWidth(1);
-        GlStateManager.enableBlend();
-        GlStateManager.enableCull();
-        GlStateManager.enableLighting();
-        GlStateManager.enableTexture2D();
-        GlStateManager.depthMask(true);
-        GlStateManager.disableColorMaterial();
-        GlStateManager.popMatrix();
     }
 
 }

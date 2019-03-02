@@ -25,6 +25,7 @@ public class Toolkit {
     @SidedProxy(clientSide = "work.erio.toolkit.proxy.ClientProxy", serverSide = "work.erio.toolkit.proxy.CommonProxy")
     public static CommonProxy proxy;
     public static Configs config;
+    private boolean obfuscated;
 
     public static Logger logger = LogManager.getLogger(Toolkit.NAME);
 
@@ -47,7 +48,7 @@ public class Toolkit {
 
     @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandTest());
+        proxy.serverStarting(event);
     }
 
     public static final CreativeTabs TRP_TOOLKIT = new CreativeTabs("toolkit"){
@@ -61,4 +62,12 @@ public class Toolkit {
             return true;
         }
     };
+
+    public boolean isObfuscated() {
+        return obfuscated;
+    }
+
+    public void setObfuscated(boolean obfuscated) {
+        this.obfuscated = obfuscated;
+    }
 }

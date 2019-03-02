@@ -8,6 +8,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import work.erio.toolkit.util.TextUtils;
 
 public class ModuleComparator extends AbstractModule implements IModule {
@@ -33,5 +34,10 @@ public class ModuleComparator extends AbstractModule implements IModule {
             tile.markDirty();
             TextUtils.printMessage(player, String.valueOf(((TileEntityComparator) tile).getOutputSignal()), TextFormatting.WHITE);
         }
+    }
+
+    @Override
+    public void onRender(RenderWorldLastEvent evt) {
+
     }
 }

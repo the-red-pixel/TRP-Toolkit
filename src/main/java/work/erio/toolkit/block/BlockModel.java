@@ -12,12 +12,15 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import work.erio.toolkit.ModItems;
 import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.render.RenderModel;
 import work.erio.toolkit.tile.TileEntityModel;
@@ -35,11 +38,31 @@ public class BlockModel extends Block implements ITileEntityProvider {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (worldIn.isRemote) {
-            ((TileEntityModel) worldIn.getTileEntity(pos)).shuffle();
-            System.out.println(Arrays.toString(((TileEntityModel) worldIn.getTileEntity(pos)).getBlockInfos()));
-        }
+//        if (worldIn.isRemote) {
+////            if (playerIn.getHeldItemMainhand().getItem() == ModItems.itemUniversalWrench) {
+////                return false;
+////            }
+//            TileEntityModel te = (TileEntityModel) worldIn.getTileEntity(pos);
+////            if (playerIn.isSneaking()) {
+////                System.out.println(te.getBlockInfos().size());
+////                te.truncate();
+////                System.out.println(te.getBlockInfos().size());
+////            } else {
+////                te.refresh();
+////                System.out.println(te.getBlockInfos());
+////            }
+//
+//        }
+//        worldIn.notifyBlockUpdate(pos, state, state, 3);
+//        System.out.println("notifyUpdate");
+        worldIn.notifyBlockUpdate(pos, state, state, 3);
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+    }
+
+    @Nullable
+    @Override
+    public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
+        return super.collisionRayTrace(blockState, worldIn, pos, start, end);
     }
 
     @SideOnly(Side.CLIENT)

@@ -1,6 +1,7 @@
 package work.erio.toolkit.proxy;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -8,20 +9,22 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.ModItems;
 import work.erio.toolkit.Toolkit;
-import work.erio.toolkit.block.*;
+import work.erio.toolkit.command.CommandTest;
+import work.erio.toolkit.command.CommandTimer;
 import work.erio.toolkit.handler.EventHandler;
 import work.erio.toolkit.handler.GuiHandler;
 import work.erio.toolkit.handler.PlayerOrderedLoadingHandler;
-import work.erio.toolkit.item.ItemUniversalWrench;
 import work.erio.toolkit.tile.*;
 
 import java.util.Arrays;
@@ -102,8 +105,17 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new EventHandler());
         NetworkRegistry.INSTANCE.registerGuiHandler(Toolkit.INSTANCE, new GuiHandler());
+
+        String mcClassName = Minecraft.class.getName().replace(".", "/");
+        FMLDeobfuscatingRemapper remapper = FMLDeobfuscatingRemapper.INSTANCE;
+        Toolkit.INSTANCE.setObfuscated(!mcClassName.equals(remapper.unmap(mcClassName)));
     }
 
     public void postInit(FMLPostInitializationEvent event) {
+    }
+
+    public void serverStarting(FMLServerStartingEvent event) {
+//        event.registerServerCommand(new CommandTest());
+//        event.registerServerCommand(new CommandTimer());
     }
 }
