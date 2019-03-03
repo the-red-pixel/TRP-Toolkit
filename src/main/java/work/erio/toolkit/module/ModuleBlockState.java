@@ -29,7 +29,7 @@ public class ModuleBlockState extends AbstractModule implements IModule {
         TextUtils.printMessage(player, blockState.getProperties() + "", TextFormatting.GOLD);
         TextUtils.printMessage(player, blockState.getBlock().getMetaFromState(blockState) + "", TextFormatting.WHITE);
 
-        worldIn
+//        worldIn
     }
 
     @Override

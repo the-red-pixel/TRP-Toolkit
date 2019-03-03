@@ -55,6 +55,7 @@ public class BlockModel extends Block implements ITileEntityProvider {
 //        }
 //        worldIn.notifyBlockUpdate(pos, state, state, 3);
 //        System.out.println("notifyUpdate");
+        ((TileEntityModel) worldIn.getTileEntity(pos)).fill();
         worldIn.notifyBlockUpdate(pos, state, state, 3);
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }

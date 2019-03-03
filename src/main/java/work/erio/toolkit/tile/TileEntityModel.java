@@ -2,8 +2,6 @@ package work.erio.toolkit.tile;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -138,10 +136,6 @@ public class TileEntityModel extends TileEntity {
             }
         }
         blockInfos = temp;
-        markDirty();
-    }
-
-    public void refresh() {
         markDirty();
     }
 
