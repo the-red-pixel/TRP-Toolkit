@@ -28,52 +28,13 @@ public class RenderModel extends TileEntitySpecialRenderer<TileEntityModel> {
     @Override
     public void render(TileEntityModel te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         super.render(te, x, y, z, partialTicks, destroyStage, alpha);
-//        renderBlock3(x, y, z, 0, 0, 0, Blocks.SLIME_BLOCK);
-//        renderBlock3(x, y, z, 1, 0, 0, Blocks.TNT);
-//        renderBlock3(x, y, z, 0, 0, 1, Blocks.ANVIL);
 
-//        BlockInfo[][][] blockInfos = te.getBlockInfos();
-//        System.out.println(Arrays.deepToString(blockInfos));
-
-
-//        te.markDirty();
-        Map<BlockPos, BlockInfo> blockInfos = te.getBlockInfos();
-
-        renderBlock5(x, y, z, blockInfos);
-
-//        for (Map.Entry<BlockPos, BlockInfo> pair : blockInfos.entrySet()) {
-//            BlockPos pos = pair.getKey();
-//            int oX = pos.getX();
-//            int oY = pos.getY();
-//            int oZ = pos.getZ();
-//            renderBlock3(x, y, z, oX, oY, oZ, pair.getValue());
-//        }
-
-
-
-//        renderBlock3(x, y, z, 0, 1, 1, blockInfos[0].getBlock());
-
-
-
-//        for (int i = 0; i < 16; i++) {
-//            for (int j = 0; j < 16; j++) {
-//                for (int k = 0; k < 16; k++) {
-//                    int index = i * 256 + j * 16 + k;
-//                    Block block = blockInfos[index].getBlock();
-//                    if (block != Blocks.AIR) {
-//                        renderBlock3(x, y, z, i, j , k, block);
-//                    }
-//                }
-//            }
-//        }
-
-
-
+//        Map<BlockPos, BlockInfo> blockInfos = te.getBlockInfos();
+//
 //        renderBlock5(x, y, z, blockInfos);
 
 
-//        renderBlock2(te, x, y, z, partialTicks, destroyStage, alpha);
-
+        work.erio.toolkit.world.RenderModel.INSTANCE.onRender(te, partialTicks);
     }
 
 

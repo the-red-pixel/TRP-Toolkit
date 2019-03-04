@@ -20,6 +20,7 @@ import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.misc.BlockInfo;
 import work.erio.toolkit.tile.TileEntityModel;
 import work.erio.toolkit.util.RenderUtils;
+import work.erio.toolkit.world.Model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,12 +28,12 @@ import java.util.Map;
 public class ModuleSelectModel extends AbstractModule implements IModule {
     private static final AxisAlignedBB DEFAULT_AABB = new AxisAlignedBB(0, 0, 0, 16, 16, 16);
     private Minecraft mc;
-    Map<BlockPos, BlockInfo> map;
+    private Model model;
 
     public ModuleSelectModel() {
         super(true);
         this.mc = Minecraft.getMinecraft();
-        this.map = new HashMap<>();
+        this.model = new Model();
     }
 
     @Override
@@ -54,31 +55,27 @@ public class ModuleSelectModel extends AbstractModule implements IModule {
                 return;
             }
             TileEntityModel tem = (TileEntityModel) te;
-            tem.setBlockInfos(this.map);
+            tem.setModel(this.model);
             tem.markDirty();
-            System.out.println(tem.getBlockInfos().size());
         } else {
             this.saveBlocks(worldIn, pos);
         }
     }
 
     private void saveBlocks(World worldIn, BlockPos pos) {
-        Map<BlockPos, BlockInfo> map = new HashMap<>();
+        Model model = new Model();
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
                 for (int k = 0; k < 16; k++) {
                     BlockPos relativePos = new BlockPos(i, j, k);
                     IBlockState blockState = worldIn.getBlockState(pos.add(relativePos));
                     if (blockState.getBlock() != Blocks.AIR) {
-                        System.out.println(pos.add(relativePos));
-                        Block block = blockState.getBlock();
-                        map.put(relativePos, new BlockInfo(block, block.getMetaFromState(blockState)));
+                        model.setBlockState(relativePos, blockState);
                     }
                 }
             }
         }
-        this.map = map;
-        System.out.println(this.map.size());
+        this.model = model;
     }
 
     @Override

@@ -9,7 +9,11 @@ import java.util.List;
 public interface IModel {
     IBlockState getBlockState(BlockPos pos);
 
+    IBlockState getBlockState(int x, int y, int z);
+
     boolean setBlockState(BlockPos pos, IBlockState blockState);
+
+    boolean setBlockState(int x, int y, int z, IBlockState blockState);
 
     TileEntity getTileEntity(BlockPos pos);
 
@@ -18,4 +22,8 @@ public interface IModel {
     void setTileEntity(BlockPos pos, TileEntity tileEntity);
 
     void removeTileEntity(BlockPos pos);
+
+    int getSize();
+
+
 }
