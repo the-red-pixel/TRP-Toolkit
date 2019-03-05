@@ -41,14 +41,12 @@ public class TileEntityModel extends TileEntity {
         }
 
         compound.setTag("maps", tagList);
-        System.out.println("writeToNBT " + compound);
         return compound;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        System.out.println("readFromNBT " + compound);
         NBTTagList tagList = compound.getTagList("maps", Constants.NBT.TAG_COMPOUND);
         Map<BlockPos, BlockInfo> temp = new HashMap<>();
         for (int i = 0; i < tagList.tagCount(); i++) {
@@ -71,7 +69,6 @@ public class TileEntityModel extends TileEntity {
     }
 
     public Map<BlockPos, BlockInfo> getBlockInfos() {
-//        markDirty();
         return blockInfos;
     }
 
@@ -151,7 +148,6 @@ public class TileEntityModel extends TileEntity {
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        // Here we get the packet from the server and read it into our client side tile entity
         this.readFromNBT(packet.getNbtCompound());
     }
 }

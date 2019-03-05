@@ -7,19 +7,19 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import org.lwjgl.opengl.GL11;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.misc.BlockInfo;
 import work.erio.toolkit.tile.TileEntityModel;
 import work.erio.toolkit.util.RenderUtils;
+import work.erio.toolkit.util.TextUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class ModuleSelectModel extends AbstractModule implements IModule {
     private static final AxisAlignedBB DEFAULT_AABB = new AxisAlignedBB(0, 0, 0, 16, 16, 16);
     private Minecraft mc;
-    Map<BlockPos, BlockInfo> map;
+    private Map<BlockPos, BlockInfo> map;
 
     public ModuleSelectModel() {
         super(true);
@@ -56,7 +56,7 @@ public class ModuleSelectModel extends AbstractModule implements IModule {
             TileEntityModel tem = (TileEntityModel) te;
             tem.setBlockInfos(this.map);
             tem.markDirty();
-            System.out.println(tem.getBlockInfos().size());
+            TextUtils.printMessage(player, String.format("Saved %d block(s)", tem.getBlockInfos().size()), TextFormatting.GREEN);
         } else {
             this.saveBlocks(worldIn, pos);
         }
@@ -70,7 +70,6 @@ public class ModuleSelectModel extends AbstractModule implements IModule {
                     BlockPos relativePos = new BlockPos(i, j, k);
                     IBlockState blockState = worldIn.getBlockState(pos.add(relativePos));
                     if (blockState.getBlock() != Blocks.AIR) {
-                        System.out.println(pos.add(relativePos));
                         Block block = blockState.getBlock();
                         map.put(relativePos, new BlockInfo(block, block.getMetaFromState(blockState)));
                     }
@@ -78,7 +77,6 @@ public class ModuleSelectModel extends AbstractModule implements IModule {
             }
         }
         this.map = map;
-        System.out.println(this.map.size());
     }
 
     @Override
@@ -92,7 +90,6 @@ public class ModuleSelectModel extends AbstractModule implements IModule {
         if (mc.world.getBlockState(pos).getBlock() == Blocks.AIR) {
             return;
         }
-
         RenderUtils.drawSolidBox(renderManager, DEFAULT_AABB, pos);
     }
 }

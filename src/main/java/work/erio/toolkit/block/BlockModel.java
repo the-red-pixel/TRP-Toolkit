@@ -20,13 +20,11 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import work.erio.toolkit.ModItems;
 import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.render.RenderModel;
 import work.erio.toolkit.tile.TileEntityModel;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 public class BlockModel extends Block implements ITileEntityProvider {
     public BlockModel() {
@@ -38,24 +36,6 @@ public class BlockModel extends Block implements ITileEntityProvider {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-//        if (worldIn.isRemote) {
-////            if (playerIn.getHeldItemMainhand().getItem() == ModItems.itemUniversalWrench) {
-////                return false;
-////            }
-//            TileEntityModel te = (TileEntityModel) worldIn.getTileEntity(pos);
-////            if (playerIn.isSneaking()) {
-////                System.out.println(te.getBlockInfos().size());
-////                te.truncate();
-////                System.out.println(te.getBlockInfos().size());
-////            } else {
-////                te.refresh();
-////                System.out.println(te.getBlockInfos());
-////            }
-//
-//        }
-//        worldIn.notifyBlockUpdate(pos, state, state, 3);
-//        System.out.println("notifyUpdate");
-        ((TileEntityModel) worldIn.getTileEntity(pos)).fill();
         worldIn.notifyBlockUpdate(pos, state, state, 3);
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
