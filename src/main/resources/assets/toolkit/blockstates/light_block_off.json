@@ -1,0 +1,34 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "block": "toolkit:blocks/light_off",
+      "particle": "toolkit:blocks/light_off"
+    },
+    "model": "toolkit:light_block",
+    "uvlock": true
+  },
+  "variants": {
+    "color": {
+      "red": {},
+      "pink": {},
+      "purple": {},
+      "deep_purple": {},
+      "indigo": {},
+      "blue": {},
+      "cyan": {},
+      "teal": {},
+      "green": {},
+      "light_green": {},
+      "lime": {},
+      "yellow": {},
+      "amber": {},
+      "orange": {},
+      "brown": {},
+      "blue_grey": {}
+    },
+    "inventory": [
+      {}
+    ]
+  }
+}

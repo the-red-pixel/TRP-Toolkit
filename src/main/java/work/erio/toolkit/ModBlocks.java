@@ -8,6 +8,7 @@ import work.erio.toolkit.block.*;
 /**
  * Created by Erioifpud on 2018/3/2.
  */
+@GameRegistry.ObjectHolder(Toolkit.MODID)
 public class ModBlocks {
 //    @GameRegistry.ObjectHolder("toolkit:monitor_block")
     public static BlockMonitor blockMonitor = new BlockMonitor();
@@ -26,6 +27,8 @@ public class ModBlocks {
     public static BlockPulse blockPulse = new BlockPulse();
     public static BlockSettings blockSettings = new BlockSettings();
     public static BlockModel blockModel = new BlockModel();
+    public static BlockColoredLight blockColoredLightOn = new BlockColoredLight(true);
+    public static BlockColoredLight blockColoredLightOff = new BlockColoredLight(false);
 
     @SideOnly(Side.CLIENT)
     public static void initModels() {
@@ -39,5 +42,6 @@ public class ModBlocks {
         blockPulse.initModel();
         blockSettings.initModel();
         blockModel.initModel();
+        blockColoredLightOn.initModel();
     }
 }

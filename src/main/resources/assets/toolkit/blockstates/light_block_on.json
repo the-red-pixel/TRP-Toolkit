@@ -1,0 +1,41 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "block": "toolkit:blocks/light_on",
+      "cover": "toolkit:blocks/light_cover",
+      "particle": "toolkit:blocks/light_on"
+    },
+    "model": "forge:multi-layer",
+    "custom": {
+      "base": "toolkit:light_block_on#block",
+      "Solid": "toolkit:light_block_on#block",
+      "Translucent": "toolkit:light_block_on#cover"
+    },
+    "uvlock": true
+  },
+  "variants": {
+    "color":
+    {
+      "red": {},
+      "pink": {},
+      "purple": {},
+      "deep_purple": {},
+      "indigo": {},
+      "blue": {},
+      "cyan": {},
+      "teal": {},
+      "green": {},
+      "light_green": {},
+      "lime": {},
+      "yellow": {},
+      "amber": {},
+      "orange": {},
+      "brown": {},
+      "blue_grey": {}
+    },
+    "inventory": [{ "model": "toolkit:light_block_inventory" }],
+    "block": [{ "model": "toolkit:light_block" }],
+    "cover": [{ "model": "toolkit:light_block_cover" }]
+  }
+}

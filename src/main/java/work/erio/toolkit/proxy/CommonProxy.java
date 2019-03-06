@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -20,11 +21,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.ModItems;
 import work.erio.toolkit.Toolkit;
-import work.erio.toolkit.command.CommandTest;
-import work.erio.toolkit.command.CommandTimer;
+import work.erio.toolkit.block.BlockColor;
 import work.erio.toolkit.handler.EventHandler;
 import work.erio.toolkit.handler.GuiHandler;
 import work.erio.toolkit.handler.PlayerOrderedLoadingHandler;
+import work.erio.toolkit.item.ItemLight;
 import work.erio.toolkit.tile.*;
 
 import java.util.Arrays;
@@ -55,7 +56,9 @@ public class CommonProxy {
                 ModBlocks.blockJS,
                 ModBlocks.blockPulse,
                 ModBlocks.blockSettings,
-                ModBlocks.blockModel
+                ModBlocks.blockModel,
+                ModBlocks.blockColoredLightOn,
+                ModBlocks.blockColoredLightOff
         );
 
         GameRegistry.registerTileEntity(TileEntityMonitor.class, new ResourceLocation(Toolkit.MODID, "monitor"));
@@ -92,6 +95,7 @@ public class CommonProxy {
         ));
 
         event.getRegistry().register(ModItems.itemUniversalWrench);
+        event.getRegistry().register(new ItemLight(ModBlocks.blockColoredLightOff).setRegistryName(ModBlocks.blockColoredLightOff.getRegistryName()));
     }
 
     private static Item[] itemBlocksWrapper(Block... block) {
@@ -112,6 +116,11 @@ public class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent event) {
+        BlockColor color = new BlockColor();
+        FMLClientHandler.instance().getClient().getBlockColors().registerBlockColorHandler(color, ModBlocks.blockColoredLightOff);
+        FMLClientHandler.instance().getClient().getItemColors().registerItemColorHandler(color, ModBlocks.blockColoredLightOff);
+        FMLClientHandler.instance().getClient().getBlockColors().registerBlockColorHandler(color, ModBlocks.blockColoredLightOn);
+        FMLClientHandler.instance().getClient().getItemColors().registerItemColorHandler(color, ModBlocks.blockColoredLightOn);
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
