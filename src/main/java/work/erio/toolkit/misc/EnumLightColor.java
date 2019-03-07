@@ -21,7 +21,7 @@ public enum EnumLightColor implements IStringSerializable {
     AMBER(12, 3, "amber", "amber", 0xFFFFC107),
     ORANGE(13, 2, "orange", "orange", 0xFFFF9800),
     BROWN(14, 1, "brown", "brown", 0xFF795548),
-    BLUE_GREY(15, 0, "blue_grey", "blue_grey", 0xFF607D8B);
+    WHITE(15, 0, "white", "white", 0xFFECF0F1);
 
     private static final EnumLightColor[] META_LOOKUP = new EnumLightColor[values().length];
     private static final EnumLightColor[] LIGHT_DMG_LOOKUP = new EnumLightColor[values().length];

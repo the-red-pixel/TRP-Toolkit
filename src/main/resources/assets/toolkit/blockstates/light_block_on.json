@@ -32,7 +32,7 @@
       "amber": {},
       "orange": {},
       "brown": {},
-      "blue_grey": {}
+      "white": {}
     },
     "inventory": [{ "model": "toolkit:light_block_inventory" }],
     "block": [{ "model": "toolkit:light_block" }],

@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import work.erio.toolkit.command.CommandTest;
 import work.erio.toolkit.config.Configs;
 import work.erio.toolkit.proxy.CommonProxy;
 

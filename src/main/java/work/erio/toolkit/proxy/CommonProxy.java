@@ -22,6 +22,8 @@ import work.erio.toolkit.ModBlocks;
 import work.erio.toolkit.ModItems;
 import work.erio.toolkit.Toolkit;
 import work.erio.toolkit.block.BlockColor;
+import work.erio.toolkit.command.CommandJS;
+import work.erio.toolkit.engine.EngineManager;
 import work.erio.toolkit.handler.EventHandler;
 import work.erio.toolkit.handler.GuiHandler;
 import work.erio.toolkit.handler.PlayerOrderedLoadingHandler;
@@ -121,10 +123,12 @@ public class CommonProxy {
         FMLClientHandler.instance().getClient().getItemColors().registerItemColorHandler(color, ModBlocks.blockColoredLightOff);
         FMLClientHandler.instance().getClient().getBlockColors().registerBlockColorHandler(color, ModBlocks.blockColoredLightOn);
         FMLClientHandler.instance().getClient().getItemColors().registerItemColorHandler(color, ModBlocks.blockColoredLightOn);
+
+        EngineManager.getInstance();
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
-//        event.registerServerCommand(new CommandTest());
+        event.registerServerCommand(new CommandJS());
 //        event.registerServerCommand(new CommandTimer());
     }
 }
