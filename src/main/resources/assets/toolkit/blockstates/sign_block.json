@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "facing=up_z":    { "model": "toolkit:sign_block", "uvlock": true },
+        "facing=up_x":    { "model": "toolkit:sign_block", "uvlock": true, "y": 90 },
+        "facing=down_z":    { "model": "toolkit:sign_block", "uvlock": true, "x": 180 },
+        "facing=down_x":    { "model": "toolkit:sign_block", "uvlock": true, "y": 90, "z": 180 },
+        "facing=down":  { "model": "toolkit:sign_block", "uvlock": true, "x": 180 },
+        "facing=east":  { "model": "toolkit:sign_block", "uvlock": true, "x": 90, "y": 90 },
+        "facing=west":  { "model": "toolkit:sign_block", "uvlock": true, "x": 90, "y": 270 },
+        "facing=south": { "model": "toolkit:sign_block", "uvlock": true, "x": 90, "y": 180 },
+        "facing=north": { "model": "toolkit:sign_block", "uvlock": true, "x": 90 }
+    }
+}

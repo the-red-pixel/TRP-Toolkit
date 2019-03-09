@@ -29,6 +29,7 @@ public class ModBlocks {
     public static BlockModel blockModel = new BlockModel();
     public static BlockColoredLight blockColoredLightOn = new BlockColoredLight(true);
     public static BlockColoredLight blockColoredLightOff = new BlockColoredLight(false);
+    public static BlockUniversalSign blockUniversalSign = new BlockUniversalSign();
 
     @SideOnly(Side.CLIENT)
     public static void initModels() {
@@ -43,5 +44,6 @@ public class ModBlocks {
         blockSettings.initModel();
         blockModel.initModel();
         blockColoredLightOn.initModel();
+        blockUniversalSign.initModel();
     }
 }

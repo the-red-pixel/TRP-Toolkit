@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
  * Created by Erioifpud on 2018/3/23.
  */
 public abstract class AbstractBlockMonitor extends Block {
-    protected static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
+//    protected static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 0f, 0f, 0f);
     protected static final AxisAlignedBB SELECTED_BOUNDING_BOX = new AxisAlignedBB(0f, 0f, 0f, 1f, 0.1f, 1f);
 
     public AbstractBlockMonitor() {
@@ -56,7 +56,7 @@ public abstract class AbstractBlockMonitor extends Block {
     @Nullable
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-        return BOUNDING_BOX;
+        return NULL_AABB;
     }
 
     @Override

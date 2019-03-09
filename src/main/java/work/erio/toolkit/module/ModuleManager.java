@@ -1,6 +1,7 @@
 package work.erio.toolkit.module;
 
 import com.google.gson.Gson;
+import work.erio.toolkit.util.ClassUtils;
 
 import java.io.*;
 import java.net.JarURLConnection;
@@ -31,7 +32,7 @@ public class ModuleManager {
 
     private void loadModules() {
         try {
-            List<Class> classes = this.findAllClasses("work.erio.toolkit.module");
+            List<Class> classes = ClassUtils.findAllClasses("work.erio.toolkit.module");
             for (Class c : classes) {
                 if (c != IModule.class && Arrays.stream(c.getInterfaces()).anyMatch(i -> i == IModule.class)) {
                     this.moduleList.add((IModule) c.newInstance());
@@ -127,46 +128,7 @@ public class ModuleManager {
         return enabledModules.get(this.index);
     }
 
-    public List<Class> findAllClasses(String basePackage) throws URISyntaxException, IOException, ClassNotFoundException {
-        List<Class> classes = new LinkedList<>();
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL baseUrl = classLoader.getResource(basePackage.replace(".", "/"));
-        if (baseUrl.getProtocol() == "file") {
-            classes = findAllClassesInFile(basePackage, baseUrl);
-        } else if (baseUrl.getProtocol() == "jar") {
-            classes = findAllClassesInJar(basePackage, baseUrl);
-        }
-        return classes;
-    }
 
-    public List<Class> findAllClassesInJar(String basePackage, URL baseUrl) throws IOException {
-        List<Class> classes = new LinkedList<>();
-        JarFile jarFile = ((JarURLConnection) baseUrl.openConnection()).getJarFile();
-        jarFile.stream().map(e -> e.getName().replace("/", "."))
-                .filter(e -> e.startsWith(basePackage) && e.endsWith(".class") && !e.contains("$"))
-                .map(e -> e.replace(".class", ""))
-                .forEach(e -> {
-                    try {
-                        classes.add(Class.forName(e));
-                    } catch (ClassNotFoundException ex) {
-                        ex.printStackTrace();
-                    }
-                });
-        return classes;
-    }
-
-    public List<Class> findAllClassesInFile(String basePackage, URL baseUrl) throws URISyntaxException, ClassNotFoundException {
-        List<Class> classes = new LinkedList<>();
-        File packageDir = new File(baseUrl.toURI());
-        for (File f : Objects.requireNonNull(packageDir.listFiles())) {
-            String name = f.getName();
-            if (name.endsWith(".class") && !name.contains("$")) {
-                String classPath = String.format("%s.%s", basePackage, name.replace(".class", ""));
-                classes.add(Class.forName(classPath));
-            }
-        }
-        return classes;
-    }
 
     public IModule getModuleByClass() {
         return null;

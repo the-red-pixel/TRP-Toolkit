@@ -41,7 +41,6 @@ minecraft {
 dependencies {
     compile"org.knowm.xchart:xchart:3.5.1"
     compile 'com.github.domamato:rabbit-gui:1.12.2.1'
-    compile 'org.javadelight:delight-nashorn-sandbox:0.1.21'
 
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..

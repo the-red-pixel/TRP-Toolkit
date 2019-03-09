@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:redstone_lamp"
+    },
+    {
+      "item": "minecraft:dye",
+      "data": 6
+    }
+  ],
+  "result": {
+    "item": "toolkit:light_block_off",
+    "data": 6
+  }
+}
