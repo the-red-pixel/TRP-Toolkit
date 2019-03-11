@@ -5,7 +5,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public interface IUpdatable {
-    void onNeighborUpdate(World worldIn, BlockPos targetPos);
+    void onNeighborUpdate(World worldIn, BlockPos targetPos, BlockPos currentPos);
 
-    void onNeighborTileUpdate(IBlockAccess worldIn, BlockPos targetPos);
+    void onNeighborTileUpdate(IBlockAccess worldIn, BlockPos targetPos, BlockPos currentPos);
 }

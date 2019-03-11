@@ -6,17 +6,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import work.erio.toolkit.gui.GuiBlockSign;
+import work.erio.toolkit.plugin.AbstractPlugin;
+import work.erio.toolkit.plugin.ISerielizable;
+import work.erio.toolkit.plugin.PluginManager;
 
-public class TileEntityUniversalSign extends TileEntity {
-    private String pluginName;
+public class TileEntityUniversalSign extends TileEntity implements ITickable {
+    private AbstractPlugin plugin;
     private ITextComponent[] signText = new ITextComponent[]{new TextComponentString(""), new TextComponentString(""), new TextComponentString(""), new TextComponentString("")};
 
     public TileEntityUniversalSign() {
-        this.pluginName = "";
+        this.plugin = PluginManager.getInstance().getPluginByName("Empty");
         signText[0] = new TextComponentString("Test");
     }
 
@@ -27,22 +31,32 @@ public class TileEntityUniversalSign extends TileEntity {
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setString("plugin", pluginName);
+        compound.setString("plugin", plugin.getName());
         for (int i = 0; i < 4; ++i) {
             String s = ITextComponent.Serializer.componentToJson(this.signText[i]);
             compound.setString("Text" + (i + 1), s);
         }
+
+        NBTTagCompound extraData = new NBTTagCompound();
+        if (plugin instanceof ISerielizable) {
+            ((ISerielizable) plugin).writeToNBT(extraData);
+        }
+        compound.setTag("extraData", extraData);
         return compound;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        this.pluginName = compound.getString("plugin");
+        this.plugin = PluginManager.getInstance().getPluginByName(compound.getString("plugin"));
         for (int i = 0; i < 4; ++i) {
             String s = compound.getString("Text" + (i + 1));
             ITextComponent itextcomponent = ITextComponent.Serializer.jsonToComponent(s);
             this.signText[i] = itextcomponent;
+        }
+
+        if (plugin instanceof ISerielizable) {
+            ((ISerielizable) plugin).readFromNBT(compound);
         }
     }
 
@@ -86,5 +100,20 @@ public class TileEntityUniversalSign extends TileEntity {
             default:
                 return this.getPos().down();
         }
+    }
+
+    public AbstractPlugin getPlugin() {
+        return plugin;
+    }
+
+    @Override
+    public void update() {
+        if (plugin instanceof ITickable) {
+            ((ITickable) plugin).update();
+        }
+    }
+
+    public void setPluginByName(String name) {
+        if (this.plugin)
     }
 }

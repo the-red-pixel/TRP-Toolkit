@@ -8,6 +8,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +27,10 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import work.erio.toolkit.Toolkit;
+import work.erio.toolkit.plugin.AbstractPlugin;
+import work.erio.toolkit.plugin.IInteractable;
+import work.erio.toolkit.plugin.IPowerable;
+import work.erio.toolkit.plugin.IUpdatable;
 import work.erio.toolkit.render.RenderSign;
 import work.erio.toolkit.tile.TileEntityUniversalSign;
 
@@ -121,11 +126,18 @@ public class BlockUniversalSign extends Block implements ITileEntityProvider {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        TileEntity te = worldIn.getTileEntity(pos);
-        if (!(te instanceof TileEntityUniversalSign)) {
+        if (!isCorrectTileEntity(pos)) {
             return false;
         }
-        getTileEntity(worldIn, pos).showGui();
+
+        if (playerIn.isSneaking()) {
+            getTileEntity(worldIn, pos).showGui();
+        } else {
+            AbstractPlugin plugin = getTileEntity(worldIn, pos).getPlugin();
+            if (plugin instanceof IInteractable) {
+                ((IInteractable) plugin).onInteract(playerIn.getHeldItem(hand), facing, hitX, hitY, hitZ);
+            }
+        }
         return true;
     }
 
@@ -168,30 +180,61 @@ public class BlockUniversalSign extends Block implements ITileEntityProvider {
 
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         IBlockState iblockstate = this.getDefaultState();
-
-//        if (canAttachTo(worldIn, pos, facing))
-//        {
-//            return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings(facing, placer.getHorizontalFacing()));
-//        }
-//        else
-//        {
-//            for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
-//            {
-//                if (enumfacing != facing && canAttachTo(worldIn, pos, enumfacing))
-//                {
-//                    return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings(enumfacing, placer.getHorizontalFacing()));
-//                }
-//            }
-//
-//            if (worldIn.getBlockState(pos.down()).isTopSolid())
-//            {
-//                return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings(EnumFacing.UP, placer.getHorizontalFacing()));
-//            }
-//            else
-//            {
-//                return iblockstate;
-//            }
-//        }
         return iblockstate.withProperty(FACING, BlockLever.EnumOrientation.forFacings(facing, placer.getHorizontalFacing()));
+    }
+
+    @Override
+    public boolean canProvidePower(IBlockState state) {
+        return true;
+    }
+
+    private boolean isCorrectTileEntity(BlockPos pos) {
+        TileEntity te = Minecraft.getMinecraft().world.getTileEntity(pos);
+        return te instanceof TileEntityUniversalSign;
+    }
+
+    @Override
+    public boolean hasComparatorInputOverride(IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
+        if (!isCorrectTileEntity(pos)) {
+            return 0;
+        }
+
+        AbstractPlugin plugin = getTileEntity(worldIn, pos).getPlugin();
+        if (plugin instanceof IPowerable) {
+            return ((IPowerable) plugin).getComparatorPower();
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+        if (!isCorrectTileEntity(pos)) {
+            return;
+        }
+
+        AbstractPlugin plugin = getTileEntity(worldIn, pos).getPlugin();
+        if (plugin instanceof IUpdatable) {
+            ((IUpdatable) plugin).onNeighborUpdate(worldIn, fromPos, pos);
+        }
+    }
+
+    @Override
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+        super.onNeighborChange(world, pos, neighbor);
+        if (!isCorrectTileEntity(pos)) {
+            return;
+        }
+
+        AbstractPlugin plugin = getTileEntity(world, pos).getPlugin();
+        if (plugin instanceof IUpdatable) {
+            ((IUpdatable) plugin).onNeighborTileUpdate(world, neighbor, pos);
+        }
     }
 }

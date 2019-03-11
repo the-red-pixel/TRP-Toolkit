@@ -6,6 +6,9 @@ import net.minecraft.client.gui.GuiUtilRenderComponents;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.text.ITextComponent;
+import work.erio.toolkit.plugin.AbstractPlugin;
+import work.erio.toolkit.plugin.IRenderable;
+import work.erio.toolkit.plugin.PluginManager;
 import work.erio.toolkit.tile.TileEntityUniversalSign;
 
 import java.util.List;
@@ -17,14 +20,21 @@ public class RenderSign extends TileEntitySpecialRenderer<TileEntityUniversalSig
 
     @Override
     public void render(TileEntityUniversalSign te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-//        Block block = te.getBlockType();
+        AbstractPlugin plugin = te.getPlugin();
+        if (plugin instanceof IRenderable) {
+            IRenderable renderable = ((IRenderable) plugin);
+            renderable.onRender(te, x, y, z, partialTicks, destroyStage, alpha);
+            if (renderable.preventDefault()) {
+                return;
+            }
+        }
+        drawText(te, x, y, z, destroyStage);
+    }
+
+    private void drawText(TileEntityUniversalSign te, double x, double y, double z, int destroyStage) {
         int meta = te.getBlockMetadata();
-
         GlStateManager.pushMatrix();
-
         GlStateManager.translate((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
-
-
         switch (BlockLever.EnumOrientation.byMetadata(meta)) {
             case NORTH:
                 GlStateManager.rotate(180, 0.0F, 1.0F, 0.0F);
@@ -41,63 +51,12 @@ public class RenderSign extends TileEntitySpecialRenderer<TileEntityUniversalSig
 
         }
         GlStateManager.translate(0.0F, -0.3125F, -0.4375F);
-
-
-//        float f = 0.6666667F;
-        float f2;
-//        if (block == Blocks.STANDING_SIGN) {
-//            GlStateManager.translate((float)x + 0.5F, (float)y + 0.5F, (float)z + 0.5F);
-//            float f1 = (float)(te.getBlockMetadata() * 360) / 16.0F;
-//            GlStateManager.rotate(-f1, 0.0F, 1.0F, 0.0F);
-//            this.model.signStick.showModel = true;
-//        } else {
-//            int k = te.getBlockMetadata();
-//            f2 = 0.0F;
-//            if (k == 2) {
-//                f2 = 180.0F;
-//            }
-//
-//            if (k == 4) {
-//                f2 = 90.0F;
-//            }
-//
-//            if (k == 5) {
-//                f2 = -90.0F;
-//            }
-//
-//            GlStateManager.translate((float)x + 0.5F, (float)y + 0.5F, (float)z + 0.5F);
-//            GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
-//            GlStateManager.translate(0.0F, -0.3125F, -0.4375F);
-//            this.model.signStick.showModel = false;
-//        }
-//
-//        if (destroyStage >= 0) {
-//            this.bindTexture(DESTROY_STAGES[destroyStage]);
-//            GlStateManager.matrixMode(5890);
-//            GlStateManager.pushMatrix();
-//            GlStateManager.scale(4.0F, 2.0F, 1.0F);
-//            GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
-//            GlStateManager.matrixMode(5888);
-//        } else {
-//            this.bindTexture(SIGN_TEXTURE);
-//        }
-//
         GlStateManager.enableRescaleNormal();
-
-
-//        GlStateManager.pushMatrix();
-//        GlStateManager.scale(0.6666667F, -0.6666667F, -0.6666667F);
-//        this.model.renderSign();
-//        GlStateManager.popMatrix();
-
-
         FontRenderer fontrenderer = this.getFontRenderer();
-        f2 = 0.010416667F;
         GlStateManager.translate(0.0F, 0.33333334F, 0.046666667F);
         GlStateManager.scale(0.010416667F, -0.010416667F, 0.010416667F);
         GlStateManager.glNormal3f(0.0F, 0.0F, -0.010416667F);
         GlStateManager.depthMask(false);
-        int i = 0;
         if (destroyStage < 0) {
             for (int j = 0; j < te.getSignText().length; ++j) {
                 if (te.getSignText()[j] != null) {
@@ -108,15 +67,8 @@ public class RenderSign extends TileEntitySpecialRenderer<TileEntityUniversalSig
                 }
             }
         }
-
         GlStateManager.depthMask(true);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.popMatrix();
-//        if (destroyStage >= 0) {
-//            GlStateManager.matrixMode(5890);
-//            GlStateManager.popMatrix();
-//            GlStateManager.matrixMode(5888);
-//        }
-
     }
 }

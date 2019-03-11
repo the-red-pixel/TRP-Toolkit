@@ -43,6 +43,6 @@ public class PluginManager {
     }
 
     public AbstractPlugin getPluginByName(String name) {
-        return pluginList.stream().filter(p -> p.getName() == name).findFirst().orElse(null);
+        return pluginList.stream().filter(p -> p.getName().toUpperCase().equals(name.toUpperCase())).findFirst().orElse(getPluginByName("Empty"));
     }
 }
