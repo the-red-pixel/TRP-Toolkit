@@ -6,21 +6,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import work.erio.toolkit.gui.GuiBlockSign;
 import work.erio.toolkit.plugin.AbstractPlugin;
 import work.erio.toolkit.plugin.ISerielizable;
+import work.erio.toolkit.plugin.ITickable;
 import work.erio.toolkit.plugin.PluginManager;
 
-public class TileEntityUniversalSign extends TileEntity implements ITickable {
+public class TileEntityUniversalSign extends TileEntity implements net.minecraft.util.ITickable {
     private AbstractPlugin plugin;
     private ITextComponent[] signText = new ITextComponent[]{new TextComponentString(""), new TextComponentString(""), new TextComponentString(""), new TextComponentString("")};
 
     public TileEntityUniversalSign() {
-        this.plugin = PluginManager.getInstance().getPluginByName("Empty");
+        this.plugin = PluginManager.EMPTY;
         signText[0] = new TextComponentString("Test");
     }
 
@@ -48,7 +48,10 @@ public class TileEntityUniversalSign extends TileEntity implements ITickable {
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        this.plugin = PluginManager.getInstance().getPluginByName(compound.getString("plugin"));
+        if (this.plugin == null && this.plugin.getName().equals("Empty")) {
+//            this.plugin = PluginManager.getInstance().getPluginByName(compound.getString("plugin"));
+            this.plugin = PluginManager.getInstance().createPlugin(compound.getString("plugin"));
+        }
         for (int i = 0; i < 4; ++i) {
             String s = compound.getString("Text" + (i + 1));
             ITextComponent itextcomponent = ITextComponent.Serializer.jsonToComponent(s);
@@ -109,11 +112,23 @@ public class TileEntityUniversalSign extends TileEntity implements ITickable {
     @Override
     public void update() {
         if (plugin instanceof ITickable) {
-            ((ITickable) plugin).update();
+            ((ITickable) plugin).onUpdate(this);
         }
     }
 
+    public void setSignText(int line, String content) {
+        if (line >= signText.length || line < 0) {
+            return;
+        }
+        signText[line] = new TextComponentString(content);
+    }
+
     public void setPluginByName(String name) {
-        if (this.plugin)
+        try {
+            this.plugin = PluginManager.getInstance().getPluginByName(name).getClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            this.plugin = PluginManager.getInstance().getPluginByName("Empty");
+            e.printStackTrace();
+        }
     }
 }

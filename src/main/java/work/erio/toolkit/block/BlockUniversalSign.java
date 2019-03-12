@@ -135,7 +135,8 @@ public class BlockUniversalSign extends Block implements ITileEntityProvider {
         } else {
             AbstractPlugin plugin = getTileEntity(worldIn, pos).getPlugin();
             if (plugin instanceof IInteractable) {
-                ((IInteractable) plugin).onInteract(playerIn.getHeldItem(hand), facing, hitX, hitY, hitZ);
+                TileEntityUniversalSign te = getTileEntity(worldIn, pos);
+                ((IInteractable) plugin).onInteract(te, playerIn.getHeldItem(hand), facing, hitX, hitY, hitZ);
             }
         }
         return true;
@@ -206,7 +207,8 @@ public class BlockUniversalSign extends Block implements ITileEntityProvider {
 
         AbstractPlugin plugin = getTileEntity(worldIn, pos).getPlugin();
         if (plugin instanceof IPowerable) {
-            return ((IPowerable) plugin).getComparatorPower();
+            TileEntityUniversalSign te = getTileEntity(worldIn, pos);
+            return ((IPowerable) plugin).getComparatorPower(te);
         } else {
             return 0;
         }
@@ -221,7 +223,8 @@ public class BlockUniversalSign extends Block implements ITileEntityProvider {
 
         AbstractPlugin plugin = getTileEntity(worldIn, pos).getPlugin();
         if (plugin instanceof IUpdatable) {
-            ((IUpdatable) plugin).onNeighborUpdate(worldIn, fromPos, pos);
+            TileEntityUniversalSign te = getTileEntity(worldIn, pos);
+            ((IUpdatable) plugin).onNeighborUpdate(te, worldIn, fromPos, pos);
         }
     }
 
@@ -234,7 +237,8 @@ public class BlockUniversalSign extends Block implements ITileEntityProvider {
 
         AbstractPlugin plugin = getTileEntity(world, pos).getPlugin();
         if (plugin instanceof IUpdatable) {
-            ((IUpdatable) plugin).onNeighborTileUpdate(world, neighbor, pos);
+            TileEntityUniversalSign te = getTileEntity(world, pos);
+            ((IUpdatable) plugin).onNeighborTileUpdate(te, world, neighbor, pos);
         }
     }
 }
